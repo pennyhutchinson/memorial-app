@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pauline Sawyer — A Life Remembered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAFAF8;
+    --cream-dark: #F0EFEB;
+    --paper: #FFFFFF;
+    --gold: #8A7040;
+    --gold-light: #A08848;
+    --gold-pale: #C8A96A;
+    --dark: #1C1C1C;
+    --ink: #1C1C1C;
+    --mid: #333333;
+    --soft: #666666;
+    --line: #DEDBD4;
+    --line-light: #EEECEA;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ===================== SCREENS ===================== */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: block; }
+
+  /* ===================== LANDING ===================== */
+  #landing {
+    background: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #landing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, #3A2818 0%, #1E1410 55%, #120C08 100%);
+  }
+
+  .landing-inner { position: relative; z-index: 1; max-width: 540px; }
+
+  .landing-rule {
+    width: 60px;
+    height: 0.5px;
+    background: var(--gold);
+    margin: 0 auto 2rem;
+    opacity: 0.6;
+  }
+
+  .landing-ornament {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: var(--gold);
+    font-size: 1.1rem;
+    letter-spacing: 0.5em;
+    margin-bottom: 1.5rem;
+    opacity: 0.6;
+  }
+
+  #landing h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(3.2rem, 9vw, 5.5rem);
+    color: var(--gold-pale);
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+  }
+
+  #landing h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold-light);
+    display: block;
+    font-size: 0.7em;
+    letter-spacing: 0.06em;
+    margin-top: 0.3em;
+  }
+
+  .landing-dates {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #D8D0C4;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.75rem;
+  }
+
+  .landing-sub {
+    font-size: 0.92rem;
+    color: #B8B0A4;
+    letter-spacing: 0.04em;
+    line-height: 1.9;
+    margin-bottom: 3rem;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .landing-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+
+  .btn {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 1px;
+    padding: 0.9rem 2.2rem;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: #FFF8EE;
+  }
+  .btn-primary:hover { background: var(--gold-light); }
+
+  .btn-secondary {
+    background: transparent;
+    color: #666666;
+    border: 0.5px solid #5A4030;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold-pale); }
+
+  .landing-scroll-hint {
+    color: #5A4030;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ===================== TOP NAV ===================== */
+  .topnav {
+    background: var(--dark);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.5px solid #3A2818;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .topnav-brand {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    font-size: 1.15rem;
+    color: var(--gold-pale);
+    letter-spacing: 0.05em;
+  }
+
+  .topnav-brand span {
+    font-style: italic;
+    color: #555555;
+    font-size: 0.85rem;
+    display: block;
+    letter-spacing: 0.08em;
+  }
+
+  .topnav-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .topnav-links button {
+    background: none;
+    border: none;
+    color: #555555;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+  }
+  .topnav-links button:hover, .topnav-links button.active { color: var(--gold-pale); }
+
+  /* ===================== PAGE WRAPPER ===================== */
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .page-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 0.5px solid var(--line);
+  }
+
+  .page-header h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .page-header p {
+    font-size: 0.82rem;
+    color: var(--soft);
+    letter-spacing: 0.06em;
+    line-height: 1.7;
+  }
+
+  /* ===================== GALLERY ===================== */
+  #gallery { background: var(--cream); }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .photo-card {
+    background: var(--paper);
+    border: 0.5px solid var(--line);
+    cursor: pointer;
+    transition: transform 0.25s, border-color 0.2s;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .photo-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+  }
+
+  .photo-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    background: var(--cream-dark);
+  }
+
+  .photo-img-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .photo-img-placeholder svg { opacity: 0.25; }
+
+  .photo-meta {
+    padding: 10px 12px 12px;
+  }
+
+  .photo-meta .title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .photo-meta .year {
+    font-size: 0.82rem;
+    color: var(--soft);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .photo-meta .mem-count {
+    display: inline-block;
+    background: var(--cream-dark);
+    color: var(--mid);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 1px;
+    margin-top: 8px;
+  }
+
+  .photo-meta .mem-count.has-memories {
+    background: #EDE0CC;
+    color: var(--gold);
+  }
+
+  .add-photo-tile {
+    background: var(--cream-dark);
+    border: 0.5px dashed var(--line);
+    border-radius: 2px;
+    aspect-ratio: 4/3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--soft);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    gap: 10px;
+    transition: all 0.2s;
+    grid-row: span 1;
+  }
+  .add-photo-tile:hover { background: #E0D4C4; border-color: var(--gold); color: var(--gold); }
+
+  .upload-input { display: none; }
+
+  /* ===================== PHOTO DETAIL ===================== */
+  #photo-detail { background: var(--cream); }
+
+  .detail-back {
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (max-width: 680px) {
+    .detail-layout { grid-template-columns: 1fr; }
+    .topnav-links { gap: 1rem; }
+    #landing h1 { font-size: 2.8rem; }
+  }
+
+  .detail-photo-wrap {
+    position: sticky;
+    top: 90px;
+  }
+
+  .detail-photo {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 2px;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .detail-photo-caption {
+    margin-top: 12px;
+  }
+
+  .detail-photo-caption h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .detail-photo-caption p {
+    font-size: 0.8rem;
+    color: var(--soft);
+    letter-spacing: 0.06em;
+  }
+
+  .detail-right {}
+
+  .memories-section-title {
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.25rem;
+  }
+
+  .memory-card {
+    background: var(--paper);
+    border: 0.5px solid var(--line);
+    border-radius: 2px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 12px;
+  }
+
+  .memory-card .mem-author {
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 7px;
+  }
+
+  .memory-card .mem-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  .no-memories {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--soft);
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+  }
+
+  .write-section {
+    background: var(--paper);
+    border: 0.5px solid var(--line);
+    border-radius: 2px;
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .write-section h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+
+  .field-label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .write-section input[type="text"] {
+    width: 100%;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 1px;
+    padding: 0.65rem 0.85rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .write-section input[type="text"]:focus { border-color: var(--gold); }
+
+  .write-section textarea {
+    width: 100%;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 1px;
+    padding: 0.75rem 0.85rem;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.7;
+    min-height: 120px;
+    resize: vertical;
+    margin-bottom: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .write-section textarea:focus { border-color: var(--gold); }
+
+  .write-section input::placeholder, .write-section textarea::placeholder { color: #C0A880; }
+
+  .btn-save {
+    width: 100%;
+    background: var(--gold);
+    color: #FFF8EE;
+    border: none;
+    padding: 0.9rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: background 0.2s;
+  }
+  .btn-save:hover { background: var(--gold-light); }
+
+  .save-confirm {
+    text-align: center;
+    padding: 0.75rem;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--gold);
+    display: none;
+  }
+
+  /* ===================== MEMORY BOOK ===================== */
+  #book { background: var(--cream); }
+
+  .book-intro {
+    background: var(--paper);
+    border: 0.5px solid var(--line);
+    border-radius: 2px;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  .book-intro .big-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .book-intro .big-sub {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--soft);
+    margin-bottom: 1.5rem;
+  }
+
+  .book-intro .book-rule {
+    width: 40px;
+    height: 0.5px;
+    background: var(--gold);
+    margin: 0 auto;
+    opacity: 0.5;
+  }
+
+  .book-spread {
+    margin-bottom: 3rem;
+  }
+
+  .book-spread-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .book-spread-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem;
+    font-weight: 400;
+    color: var(--line);
+    line-height: 1;
+    min-width: 40px;
+  }
+
+  .book-spread-info h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .book-spread-info p {
+    font-size: 0.75rem;
+    color: var(--soft);
+    letter-spacing: 0.06em;
+  }
+
+  .book-spread-body {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2rem;
+    background: var(--paper);
+    border: 0.5px solid var(--line);
+    border-radius: 2px;
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 600px) {
+    .book-spread-body { grid-template-columns: 1fr; }
+  }
+
+  .book-photo {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 1px;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .book-memories {}
+
+  .book-memory {
+    padding: 0.85rem 0;
+    border-bottom: 0.5px solid var(--line-light);
+  }
+  .book-memory:last-child { border-bottom: none; }
+
+  .book-memory .bm-author {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 5px;
+  }
+
+  .book-memory .bm-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  .book-empty {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    color: var(--soft);
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+  }
+
+  .print-bar {
+    background: var(--dark);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .print-bar p {
+    color: #555555;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+  }
+
+  .btn-print {
+    background: var(--gold);
+    color: #FFF8EE;
+    border: none;
+    padding: 0.85rem 2rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 1px;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .btn-print:hover { background: var(--gold-light); }
+
+  /* ===================== MODAL ===================== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 12, 6, 0.75);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--paper);
+    border: 0.5px solid var(--line);
+    border-radius: 2px;
+    padding: 2rem;
+    max-width: 440px;
+    width: 100%;
+  }
+
+  .modal h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .modal p {
+    font-size: 0.82rem;
+    color: var(--soft);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal input[type="text"] {
+    width: 100%;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 1px;
+    padding: 0.65rem 0.85rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    margin-bottom: 10px;
+    outline: none;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .btn-modal-cancel {
+    flex: 1;
+    background: none;
+    border: 0.5px solid var(--line);
+    color: var(--soft);
+    padding: 0.75rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 1px;
+  }
+
+  .btn-modal-save {
+    flex: 2;
+    background: var(--gold);
+    color: #FFF8EE;
+    border: none;
+    padding: 0.75rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: background 0.2s;
+  }
+  .btn-modal-save:hover { background: var(--gold-light); }
+
+  .btn-edit {
+    background: #2980b9;
+    color: white;
+    border: none;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: none;
+    margin-right: 6px;
+  }
+  .btn-edit:hover { background: #3498db; }
+  .admin-mode .btn-edit { display: inline-block; }
+    background: #c0392b;
+    color: white;
+    border: none;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: none;
+  }
+  .btn-delete:hover { background: #e74c3c; }
+  .admin-mode .btn-delete { display: inline-block; }
+
+  .photo-card { position: relative; }
+  .photo-delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(192,57,43,0.9);
+    color: white;
+    border: none;
+    border-radius: 1px;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-family: 'Source Sans 3', sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: none;
+    transition: background 0.2s;
+  }
+  .photo-delete-btn:hover { background: rgba(231,76,60,0.95); }
+  .admin-mode .photo-delete-btn { display: block; }
+
+  .admin-banner {
+    display: none;
+    background: #c0392b;
+    color: white;
+    text-align: center;
+    padding: 6px;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .admin-mode .admin-banner { display: block; }
+  /* ===================== SLIDESHOW ===================== */
+  .slideshow-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0D0A08;
+    z-index: 300;
+    flex-direction: column;
+  }
+  .slideshow-overlay.open { display: flex; }
+
+  .slideshow-img-wrap {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slideshow-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    position: absolute;
+  }
+  .slideshow-img.visible { opacity: 1; }
+
+  .slideshow-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 3rem 2.5rem 1.5rem;
+    pointer-events: none;
+  }
+
+  .slideshow-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 400;
+    color: #F0EAE0;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+  }
+
+  .slideshow-year {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: #B8A888;
+    margin-bottom: 0.75rem;
+  }
+
+  .slideshow-memory {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: #C8B898;
+    line-height: 1.7;
+    max-width: 680px;
+    opacity: 0;
+    transition: opacity 1s ease 0.6s;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+  }
+  .slideshow-memory.visible { opacity: 1; }
+
+  .slideshow-memory-author {
+    font-family: 'Source Sans 3', sans-serif;
+    font-style: normal;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #7A6850;
+    margin-top: 0.4rem;
+  }
+
+  .slideshow-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+    background: #0D0A08;
+    border-top: 0.5px solid #2A221A;
+    gap: 1rem;
+  }
+
+  .slideshow-nav-btn {
+    background: none;
+    border: 0.5px solid #3A3028;
+    color: #9A8870;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: all 0.2s;
+    min-width: 80px;
+  }
+  .slideshow-nav-btn:hover { border-color: var(--gold); color: var(--gold-pale); }
+
+  .slideshow-progress {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .slideshow-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #3A3028;
+    transition: background 0.3s, transform 0.3s;
+    cursor: pointer;
+  }
+  .slideshow-dot.active { background: var(--gold); transform: scale(1.4); }
+
+  .slideshow-timer-bar { height: 2px; background: #1A1410; }
+  .slideshow-timer-fill {
+    height: 100%;
+    background: var(--gold);
+    width: 0%;
+  }
+
+  @media print {
+    .topnav, #landing, #gallery, #photo-detail, .print-bar { display: none !important; }
+    #book { display: block !important; }
+    .page { padding: 0; }
+    .book-spread-body { break-inside: avoid; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="landing" class="screen active">
+  <div class="landing-inner">
+    <div class="landing-rule"></div>
+    <div class="landing-ornament">&#10022; &#10022; &#10022;</div>
+    <h1>Pauline Sawyer<em>A life remembered</em></h1>
+    <div class="landing-dates">In loving memory</div>
+    <p class="landing-sub">
+      A space for family and friends to gather photographs and the memories they hold —
+      to be woven together into a book that can be kept and treasured.
+    </p>
+    <div class="landing-actions">
+      <button class="btn btn-primary" onclick="showScreen('gallery')">View the photos</button>
+      <button class="btn btn-secondary" onclick="showScreen('book')">Open the memory book</button>
+      <button class="btn btn-secondary" onclick="startSlideshow()">&#9654; Play slideshow</button>
+    </div>
+    <div class="landing-scroll-hint">Scroll to explore</div>
+  </div>
+</div>
+
+<!-- NAV (hidden until past landing) -->
+<nav class="topnav" id="topnav" style="display:none;">
+  <div class="topnav-brand">
+    Pauline Sawyer
+    <span>A life remembered</span>
+  </div>
+  <div class="topnav-links">
+    <button onclick="showScreen('gallery')" id="nav-gallery">Photos</button>
+    <button onclick="showScreen('book')" id="nav-book">Memory book</button>
+    <button onclick="showScreen('landing')" id="nav-home">Home</button>
+    <button onclick="toggleAdmin()" id="nav-admin" title="Admin" style="opacity:0.3; font-size:1rem; padding:0; border:none; background:none; cursor:pointer;">&#128274;</button>
+  </div>
+</nav>
+
+<div class="admin-banner" id="admin-banner">Admin mode — delete buttons are visible. Click the padlock again to exit.</div>
+<div id="gallery" class="screen">
+  <div class="page">
+    <div class="page-header" style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <h2>Pauline's photographs</h2>
+        <p>Click any photo to read what others have written — and add your own memory to the book.</p>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <select id="sort-select" onchange="renderGallery()" style="font-family:'Source Sans 3',sans-serif; font-size:0.8rem; color:var(--ink); background:var(--paper); border:0.5px solid var(--line); border-radius:1px; padding:0.5rem 0.75rem; cursor:pointer; outline:none;">
+          <option value="added">Sort: date added</option>
+          <option value="year-asc">Sort: oldest first</option>
+          <option value="year-desc">Sort: newest first</option>
+        </select>
+        <label for="upload-input" class="btn btn-primary" style="white-space:nowrap; flex-shrink:0; cursor:pointer; display:inline-block;">
+          + Add a photo
+          <input type="file" id="upload-input" accept="image/jpeg,image/png,image/heic,image/heif,image/*" style="position:absolute; width:1px; height:1px; opacity:0; overflow:hidden;">
+        </label>
+      </div>
+    </div>
+    <div class="gallery-grid" id="gallery-grid">
+    </div>
+  </div>
+</div>
+
+<!-- PHOTO DETAIL -->
+<div id="photo-detail" class="screen">
+  <div class="page">
+    <button class="detail-back" onclick="showScreen('gallery')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to photos
+    </button>
+    <div class="detail-layout">
+      <div class="detail-photo-wrap">
+        <div id="detail-img-wrap"></div>
+        <div class="detail-photo-caption">
+          <h3 id="detail-title"></h3>
+          <p id="detail-year"></p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+            <button class="btn-edit" style="display:none;" id="edit-photo-btn" onclick="openEditPhoto()">Edit title &amp; year</button>
+            <button class="btn-edit" style="display:none; background:#5a7a3a;" id="enhance-photo-btn" onclick="openEnhance()">Enhance photo</button>
+          </div>
+        </div>
+      </div>
+      <div class="detail-right">
+        <div class="memories-section-title" id="mem-section-title">Memories</div>
+        <div id="memories-list"></div>
+        <div class="write-section">
+          <h4>Add your memory</h4>
+          <label class="field-label">Your name</label>
+          <input type="text" id="w-author" placeholder="e.g. Sarah, or Auntie Jean">
+          <label class="field-label">Your memory</label>
+          <textarea id="w-text" placeholder="Write what this photograph brings back for you..."></textarea>
+          <button class="btn-save" onclick="saveMemory()">Save this memory</button>
+          <div class="save-confirm" id="save-confirm">Memory saved — thank you.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MEMORY BOOK -->
+<div id="book" class="screen">
+  <div class="page">
+    <div class="book-intro">
+      <div class="big-name">Pauline Sawyer</div>
+      <div class="big-sub">Gathered memories from those who loved her</div>
+      <div class="book-rule"></div>
+    </div>
+    <div id="book-spreads"></div>
+  </div>
+  <div class="print-bar">
+    <p>When you're ready, print this page or save it as a PDF<br>to send to a printer and make a physical keepsake.</p>
+    <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+</div>
+
+<!-- UPLOAD MODAL -->
+<div class="modal-overlay" id="upload-modal">
+  <div class="modal">
+    <h3>Name this photo</h3>
+    <p>Give this photograph a title and an approximate year — it helps people connect to the memory.</p>
+    <label class="field-label">Title</label>
+    <input type="text" id="modal-title" placeholder="e.g. Sunday lunch, Christmas morning">
+    <label class="field-label" style="margin-top:4px;">Year or occasion (optional)</label>
+    <input type="text" id="modal-year" placeholder="e.g. 1987, or Summer holiday">
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-modal-save" onclick="confirmUpload()">Add to gallery</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT PHOTO MODAL -->
+<div class="modal-overlay" id="edit-photo-modal">
+  <div class="modal">
+    <h3>Edit photo details</h3>
+    <p>Update the title or year for this photograph.</p>
+    <label class="field-label">Title</label>
+    <input type="text" id="edit-photo-title" placeholder="e.g. Sunday lunch, Christmas morning">
+    <label class="field-label" style="margin-top:4px;">Year or occasion</label>
+    <input type="text" id="edit-photo-year" placeholder="e.g. 1987, or Summer holiday">
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeEditPhotoModal()">Cancel</button>
+      <button class="btn-modal-save" onclick="confirmEditPhoto()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MEMORY MODAL -->
+<div class="modal-overlay" id="edit-memory-modal">
+  <div class="modal">
+    <h3>Edit memory</h3>
+    <p>Correct any mistakes in this memory.</p>
+    <label class="field-label">Name</label>
+    <input type="text" id="edit-memory-author">
+    <label class="field-label" style="margin-top:4px;">Memory</label>
+    <textarea id="edit-memory-text" style="width:100%; min-height:100px; background:var(--cream); border:0.5px solid var(--line); border-radius:1px; padding:0.75rem 0.85rem; font-family:'Playfair Display',Georgia,serif; font-size:1.05rem; font-style:italic; color:var(--ink); line-height:1.7; resize:vertical; outline:none; margin-bottom:10px;"></textarea>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeEditMemoryModal()">Cancel</button>
+      <button class="btn-modal-save" onclick="confirmEditMemory()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ENHANCE MODAL -->
+<div class="modal-overlay" id="enhance-modal" style="align-items:center;">
+  <div class="modal" style="max-width:640px; width:100%;">
+    <h3>Enhance photo</h3>
+    <p style="margin-bottom:1rem;">Adjust the sliders to brighten, sharpen and warm the photo. When you're happy, save the enhanced version.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:1.25rem;">
+      <div>
+        <div style="font-size:0.72rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin-bottom:4px;">Original</div>
+        <canvas id="enhance-before" style="width:100%; border-radius:1px; border:0.5px solid var(--line);"></canvas>
+      </div>
+      <div>
+        <div style="font-size:0.72rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin-bottom:4px;">Enhanced</div>
+        <canvas id="enhance-after" style="width:100%; border-radius:1px; border:0.5px solid var(--line);"></canvas>
+      </div>
+    </div>
+
+    <div style="display:grid; gap:10px; margin-bottom:1.25rem;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <label style="font-size:0.78rem; color:var(--soft); min-width:80px;">Brightness</label>
+        <input type="range" min="0" max="80" value="20" id="sl-brightness" oninput="updateEnhance()" style="flex:1;">
+        <span style="font-size:0.78rem; min-width:28px; text-align:right;" id="sl-brightness-val">20</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <label style="font-size:0.78rem; color:var(--soft); min-width:80px;">Contrast</label>
+        <input type="range" min="0" max="60" value="15" id="sl-contrast" oninput="updateEnhance()" style="flex:1;">
+        <span style="font-size:0.78rem; min-width:28px; text-align:right;" id="sl-contrast-val">15</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <label style="font-size:0.78rem; color:var(--soft); min-width:80px;">Warmth</label>
+        <input type="range" min="0" max="60" value="15" id="sl-warmth" oninput="updateEnhance()" style="flex:1;">
+        <span style="font-size:0.78rem; min-width:28px; text-align:right;" id="sl-warmth-val">15</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <label style="font-size:0.78rem; color:var(--soft); min-width:80px;">Sharpen</label>
+        <input type="range" min="0" max="100" value="30" id="sl-sharpen" oninput="updateEnhance()" style="flex:1;">
+        <span style="font-size:0.78rem; min-width:28px; text-align:right;" id="sl-sharpen-val">30</span>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeEnhance()">Discard</button>
+      <button class="btn-modal-save" id="enhance-save-btn" onclick="saveEnhanced()">Save enhanced version</button>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDESHOW -->
+<div class="slideshow-overlay" id="slideshow">
+  <div class="slideshow-timer-bar"><div class="slideshow-timer-fill" id="ss-timer"></div></div>
+  <div class="slideshow-img-wrap">
+    <img class="slideshow-img" id="ss-img-a" src="" alt="">
+    <img class="slideshow-img" id="ss-img-b" src="" alt="">
+    <div class="slideshow-info">
+      <div class="slideshow-title" id="ss-title"></div>
+      <div class="slideshow-year" id="ss-year"></div>
+      <div class="slideshow-memory" id="ss-memory">
+        <span id="ss-memory-text"></span>
+        <div class="slideshow-memory-author" id="ss-memory-author"></div>
+      </div>
+    </div>
+  </div>
+  <div class="slideshow-controls">
+    <button class="slideshow-nav-btn" onclick="ssPrev()">&#8592; Prev</button>
+    <div class="slideshow-progress" id="ss-dots"></div>
+    <button class="slideshow-nav-btn" onclick="ssNext()">Next &#8594;</button>
+    <button style="background:none;border:0.5px solid #3A3028;color:#9A8870;font-family:'Source Sans 3',sans-serif;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.2rem;cursor:pointer;border-radius:1px;margin-left:8px;" onclick="ssTogglePause()" id="ss-pause-btn">Pause</button>
+    <button style="background:none;border:none;color:#5A4A38;font-size:1.4rem;cursor:pointer;padding:0.4rem;margin-left:4px;" onclick="stopSlideshow()" title="Close">&#10005;</button>
+  </div>
+</div>
+
+<script>
+  // ===================== SUPABASE =====================
+  var SUPA_URL = 'https://csxxtcatzvbohvqtfizn.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeHh0Y2F0enZib2h2cXRmaXpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNDU1NTAsImV4cCI6MjA4OTgyMTU1MH0.Hs2-RjkCdU6ICOqBsHXL2Ikk_IqqUNfg3HfEp6z4K-k';
+  var BUCKET = 'pauline';
+
+  function supaFetch(path, options) {
+    return fetch(SUPA_URL + '/rest/v1/' + path, Object.assign({
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+      }
+    }, options));
+  }
+
+  function photoUrl(filename) {
+    return SUPA_URL + '/storage/v1/object/public/' + BUCKET + '/' + filename;
+  }
+
+  async function loadPhotos() {
+    var res = await supaFetch('photos?order=created_at.asc');
+    if (!res.ok) return [];
+    return await res.json();
+  }
+
+  async function uploadPhoto(file, title, year) {
+    var ext = file.name.split('.').pop();
+    var filename = Date.now() + '.' + ext;
+
+    var uploadRes = await fetch(SUPA_URL + '/storage/v1/object/' + BUCKET + '/' + filename, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': file.type
+      },
+      body: file
+    });
+    if (!uploadRes.ok) {
+      var errText = await uploadRes.text();
+      console.error('Storage upload failed:', uploadRes.status, errText);
+      alert('Upload failed (storage): ' + uploadRes.status + ' — ' + errText);
+      return null;
+    }
+
+    var dbRes = await supaFetch('photos', {
+      method: 'POST',
+      body: JSON.stringify({ title: title, year: year, filename: filename })
+    });
+    if (!dbRes.ok) {
+      var dbErr = await dbRes.text();
+      console.error('Database insert failed:', dbRes.status, dbErr);
+      alert('Upload failed (database): ' + dbRes.status + ' — ' + dbErr);
+      return null;
+    }
+    var rows = await dbRes.json();
+    return rows[0];
+  }
+
+  async function loadMemoriesForPhoto(photoId) {
+    var res = await supaFetch('memories?photo_id=eq.' + photoId + '&order=created_at.asc');
+    if (!res.ok) return [];
+    return await res.json();
+  }
+
+  async function saveMemoryToDb(photoId, author, text) {
+    var res = await supaFetch('memories', {
+      method: 'POST',
+      body: JSON.stringify({ photo_id: photoId, author: author, memory: text })
+    });
+    return res.ok;
+  }
+
+  // ===================== DATA =====================
+  var photos = [];
+  var memoryCounts = {};
+  var currentPhotoId = null;
+  var pendingFiles = [];
+  var pendingFileIndex = 0;
+
+  async function loadAllMemoryCounts() {
+    var res = await supaFetch('memories?select=photo_id');
+    if (!res.ok) return;
+    var rows = await res.json();
+    memoryCounts = {};
+    rows.forEach(function(r) {
+      memoryCounts[r.photo_id] = (memoryCounts[r.photo_id] || 0) + 1;
+    });
+  }
+
+  // ===================== ADMIN =====================
+  var isAdmin = false;
+  var ADMIN_PASS = 'Polly3141950';
+
+  function toggleAdmin() {
+    if (isAdmin) {
+      isAdmin = false;
+      document.body.classList.remove('admin-mode');
+      document.getElementById('nav-admin').style.opacity = '0.3';
+      document.getElementById('edit-photo-btn').style.display = 'none';
+      document.getElementById('enhance-photo-btn').style.display = 'none';
+    } else {
+      var pass = prompt('Enter admin password:');
+      if (pass === ADMIN_PASS) {
+        isAdmin = true;
+        document.body.classList.add('admin-mode');
+        document.getElementById('nav-admin').style.opacity = '1';
+        if (currentPhotoId) document.getElementById('edit-photo-btn').style.display = 'inline-block';
+      } else if (pass !== null) {
+        alert('Incorrect password.');
+      }
+    }
+  }
+
+  // ---- Edit photo ----
+  var editingPhotoId = null;
+
+  function openEditPhoto() {
+    var p = photos.find(function(x){ return x.id === currentPhotoId; });
+    if (!p) return;
+    editingPhotoId = p.id;
+    document.getElementById('edit-photo-title').value = p.title;
+    document.getElementById('edit-photo-year').value = p.year || '';
+    document.getElementById('edit-photo-modal').classList.add('open');
+  }
+
+  function closeEditPhotoModal() {
+    document.getElementById('edit-photo-modal').classList.remove('open');
+    editingPhotoId = null;
+  }
+
+  async function confirmEditPhoto() {
+    var title = document.getElementById('edit-photo-title').value.trim();
+    var year = document.getElementById('edit-photo-year').value.trim();
+    if (!title) { alert('Please enter a title.'); return; }
+
+    var btn = document.querySelector('#edit-photo-modal .btn-modal-save');
+    btn.textContent = 'Saving...'; btn.disabled = true;
+
+    var res = await supaFetch('photos?id=eq.' + editingPhotoId, {
+      method: 'PATCH',
+      body: JSON.stringify({ title: title, year: year })
+    });
+
+    btn.textContent = 'Save changes'; btn.disabled = false;
+
+    if (!res.ok) { alert('Could not save — please try again.'); return; }
+
+    var p = photos.find(function(x){ return x.id === editingPhotoId; });
+    if (p) { p.title = title; p.year = year; }
+    document.getElementById('detail-title').textContent = title;
+    document.getElementById('detail-year').textContent = year;
+    closeEditPhotoModal();
+  }
+
+  // ---- Edit memory ----
+  var editingMemoryId = null;
+
+  function openEditMemory(id, author, text) {
+    editingMemoryId = id;
+    document.getElementById('edit-memory-author').value = author;
+    document.getElementById('edit-memory-text').value = text.replace(/\\n/g, '\n');
+    document.getElementById('edit-memory-modal').classList.add('open');
+  }
+
+  function closeEditMemoryModal() {
+    document.getElementById('edit-memory-modal').classList.remove('open');
+    editingMemoryId = null;
+  }
+
+  async function confirmEditMemory() {
+    var author = document.getElementById('edit-memory-author').value.trim();
+    var text = document.getElementById('edit-memory-text').value.trim();
+    if (!author || !text) { alert('Please fill in both fields.'); return; }
+
+    var btn = document.querySelector('#edit-memory-modal .btn-modal-save');
+    btn.textContent = 'Saving...'; btn.disabled = true;
+
+    var res = await supaFetch('memories?id=eq.' + editingMemoryId, {
+      method: 'PATCH',
+      body: JSON.stringify({ author: author, memory: text })
+    });
+
+    btn.textContent = 'Save changes'; btn.disabled = false;
+
+    if (!res.ok) { alert('Could not save — please try again.'); return; }
+
+    closeEditMemoryModal();
+    var memories = await loadMemoriesForPhoto(currentPhotoId);
+    renderMemoriesPanel(memories);
+  }
+
+  async function deletePhoto(e, id, filename) {
+    e.stopPropagation();
+    if (!confirm('Remove this photo and all its memories? This cannot be undone.')) return;
+
+    await supaFetch('memories?photo_id=eq.' + id, { method: 'DELETE' });
+    await supaFetch('photos?id=eq.' + id, { method: 'DELETE' });
+    if (filename) {
+      await fetch(SUPA_URL + '/storage/v1/object/' + BUCKET + '/' + filename, {
+        method: 'DELETE',
+        headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+      });
+    }
+
+    var results = await Promise.all([loadPhotos(), loadAllMemoryCounts()]);
+    photos = results[0];
+    renderGallery();
+  }
+
+  async function deleteMemory(id) {
+    if (!confirm('Remove this memory? This cannot be undone.')) return;
+    await supaFetch('memories?id=eq.' + id, { method: 'DELETE' });
+    var memories = await loadMemoriesForPhoto(currentPhotoId);
+    renderMemoriesPanel(memories);
+    memoryCounts[currentPhotoId] = Math.max(0, (memoryCounts[currentPhotoId] || 1) - 1);
+  }
+
+  // ---- Enhance photo ----
+  var enhanceOriginalImg = null;
+  var enhancingPhotoId = null;
+  var enhancingFilename = null;
+
+  function openEnhance() {
+    var p = photos.find(function(x){ return x.id === currentPhotoId; });
+    if (!p || !p.filename) { alert('No image file found for this photo.'); return; }
+    enhancingPhotoId = p.id;
+    enhancingFilename = p.filename;
+
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function() {
+      enhanceOriginalImg = img;
+      var before = document.getElementById('enhance-before');
+      before.width = img.width;
+      before.height = img.height;
+      before.getContext('2d').drawImage(img, 0, 0);
+      updateEnhance();
+      document.getElementById('enhance-modal').classList.add('open');
+    };
+    img.onerror = function() {
+      alert('Could not load image for enhancement. This may be due to browser security restrictions — try re-uploading the photo first.');
+    };
+    img.src = photoUrl(enhancingFilename) + '?t=' + Date.now();
+  }
+
+  function updateEnhance() {
+    if (!enhanceOriginalImg) return;
+    var brightness = parseInt(document.getElementById('sl-brightness').value);
+    var contrast = parseInt(document.getElementById('sl-contrast').value);
+    var warmth = parseInt(document.getElementById('sl-warmth').value);
+    var sharpen = parseInt(document.getElementById('sl-sharpen').value);
+
+    document.getElementById('sl-brightness-val').textContent = brightness;
+    document.getElementById('sl-contrast-val').textContent = contrast;
+    document.getElementById('sl-warmth-val').textContent = warmth;
+    document.getElementById('sl-sharpen-val').textContent = sharpen;
+
+    var after = document.getElementById('enhance-after');
+    after.width = enhanceOriginalImg.width;
+    after.height = enhanceOriginalImg.height;
+    var ctx = after.getContext('2d');
+    ctx.drawImage(enhanceOriginalImg, 0, 0);
+
+    var imageData = ctx.getImageData(0, 0, after.width, after.height);
+    var data = imageData.data;
+    var bFactor = brightness / 100;
+    var cFactor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+
+    for (var i = 0; i < data.length; i += 4) {
+      var r = data[i], g = data[i+1], b = data[i+2];
+
+      // Brightness
+      r = Math.min(255, r + brightness);
+      g = Math.min(255, g + brightness);
+      b = Math.min(255, b + brightness);
+
+      // Contrast
+      r = Math.min(255, Math.max(0, cFactor * (r - 128) + 128));
+      g = Math.min(255, Math.max(0, cFactor * (g - 128) + 128));
+      b = Math.min(255, Math.max(0, cFactor * (b - 128) + 128));
+
+      // Warmth — boost reds/yellows, reduce blues
+      r = Math.min(255, r + warmth * 0.8);
+      g = Math.min(255, g + warmth * 0.3);
+      b = Math.max(0, b - warmth * 0.5);
+
+      data[i] = r; data[i+1] = g; data[i+2] = b;
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+
+    // Sharpen using convolution
+    if (sharpen > 0) {
+      var strength = sharpen / 100;
+      var sharpData = ctx.getImageData(0, 0, after.width, after.height);
+      var src = new Uint8ClampedArray(sharpData.data);
+      var w = after.width, h = after.height;
+      var kernel = [0, -strength, 0, -strength, 1 + 4 * strength, -strength, 0, -strength, 0];
+
+      for (var y = 1; y < h - 1; y++) {
+        for (var x = 1; x < w - 1; x++) {
+          for (var c = 0; c < 3; c++) {
+            var sum = 0;
+            for (var ky = -1; ky <= 1; ky++) {
+              for (var kx = -1; kx <= 1; kx++) {
+                var px = ((y + ky) * w + (x + kx)) * 4 + c;
+                sum += src[px] * kernel[(ky + 1) * 3 + (kx + 1)];
+              }
+            }
+            sharpData.data[(y * w + x) * 4 + c] = Math.min(255, Math.max(0, sum));
+          }
+        }
+      }
+      ctx.putImageData(sharpData, 0, 0);
+    }
+  }
+
+  async function saveEnhanced() {
+    var after = document.getElementById('enhance-after');
+    var btn = document.getElementById('enhance-save-btn');
+    btn.textContent = 'Saving...'; btn.disabled = true;
+
+    after.toBlob(async function(blob) {
+      var ext = enhancingFilename.split('.').pop();
+      var newFilename = Date.now() + '.' + ext;
+
+      // Upload new file
+      var uploadRes = await fetch(SUPA_URL + '/storage/v1/object/' + BUCKET + '/' + newFilename, {
+        method: 'POST',
+        headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'image/jpeg' },
+        body: blob
+      });
+
+      if (!uploadRes.ok) { alert('Could not save — upload failed.'); btn.textContent = 'Save enhanced version'; btn.disabled = false; return; }
+
+      // Delete old file
+      await fetch(SUPA_URL + '/storage/v1/object/' + BUCKET + '/' + enhancingFilename, {
+        method: 'DELETE',
+        headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+      });
+
+      // Update DB with new filename
+      await supaFetch('photos?id=eq.' + enhancingPhotoId, {
+        method: 'PATCH',
+        body: JSON.stringify({ filename: newFilename })
+      });
+
+      // Update local photos array
+      var p = photos.find(function(x){ return x.id === enhancingPhotoId; });
+      if (p) p.filename = newFilename;
+
+      // Update the detail view image
+      document.getElementById('detail-img-wrap').innerHTML = '<img class="detail-photo" src="' + photoUrl(newFilename) + '" alt="">';
+
+      btn.textContent = 'Save enhanced version'; btn.disabled = false;
+      closeEnhance();
+    }, 'image/jpeg', 0.92);
+  }
+
+  function closeEnhance() {
+    document.getElementById('enhance-modal').classList.remove('open');
+    enhanceOriginalImg = null;
+    enhancingPhotoId = null;
+    enhancingFilename = null;
+  }
+
+  // ===================== SLIDESHOW =====================
+  var ssIndex = 0;
+  var ssPhotos = [];
+  var ssMemories = {};
+  var ssTimer = null;
+  var ssDuration = 6000;
+  var ssPaused = false;
+  var ssActive = 'a';
+  var ssTimerStart = null;
+  var ssTimerRemaining = ssDuration;
+
+  async function startSlideshow() {
+    var res1 = await loadPhotos();
+    ssPhotos = res1.filter(function(p){ return p.filename; });
+    if (ssPhotos.length === 0) { alert('No photos to show yet — add some first!'); return; }
+    ssMemories = {};
+    for (var i = 0; i < ssPhotos.length; i++) {
+      var mems = await loadMemoriesForPhoto(ssPhotos[i].id);
+      ssMemories[ssPhotos[i].id] = mems;
+    }
+    ssIndex = 0;
+    ssPaused = false;
+    document.getElementById('ss-pause-btn').textContent = 'Pause';
+    document.getElementById('slideshow').classList.add('open');
+    buildSsDots();
+    ssShowSlide(ssIndex, true);
+    ssStartTimer();
+  }
+
+  function buildSsDots() {
+    var dots = document.getElementById('ss-dots');
+    dots.innerHTML = ssPhotos.map(function(p, i){
+      return '<div class="slideshow-dot' + (i === 0 ? ' active' : '') + '" onclick="ssGoTo(' + i + ')"></div>';
+    }).join('');
+  }
+
+  function ssUpdateDots() {
+    document.getElementById('ss-dots').querySelectorAll('.slideshow-dot').forEach(function(d, i){
+      d.classList.toggle('active', i === ssIndex);
+    });
+  }
+
+  function ssShowSlide(idx, instant) {
+    var p = ssPhotos[idx];
+    var incoming = ssActive === 'a' ? 'b' : 'a';
+    var imgIn = document.getElementById('ss-img-' + incoming);
+    var imgOut = document.getElementById('ss-img-' + ssActive);
+    var mem = document.getElementById('ss-memory');
+
+    imgIn.src = photoUrl(p.filename);
+    imgIn.classList.remove('visible');
+    imgIn.onload = function() {
+      if (!instant) imgOut.classList.remove('visible');
+      imgIn.classList.add('visible');
+      ssActive = incoming;
+    };
+
+    document.getElementById('ss-title').textContent = p.title;
+    document.getElementById('ss-year').textContent = p.year || '';
+
+    mem.classList.remove('visible');
+    var mems = ssMemories[p.id] || [];
+    if (mems.length > 0) {
+      var m = mems[Math.floor(Math.random() * mems.length)];
+      document.getElementById('ss-memory-text').textContent = '\u201C' + m.memory + '\u201D';
+      document.getElementById('ss-memory-author').textContent = '— ' + m.author;
+      setTimeout(function(){ mem.classList.add('visible'); }, 500);
+    } else {
+      document.getElementById('ss-memory-text').textContent = '';
+      document.getElementById('ss-memory-author').textContent = '';
+    }
+    ssUpdateDots();
+  }
+
+  function ssStartTimer() {
+    if (ssTimer) clearTimeout(ssTimer);
+    if (ssPaused) return;
+    var fill = document.getElementById('ss-timer');
+    fill.style.transition = 'none';
+    fill.style.width = '0%';
+    setTimeout(function(){
+      fill.style.transition = 'width ' + ssDuration + 'ms linear';
+      fill.style.width = '100%';
+    }, 30);
+    ssTimerStart = Date.now();
+    ssTimerRemaining = ssDuration;
+    ssTimer = setTimeout(function(){ ssNext(); }, ssDuration);
+  }
+
+  function ssNext() {
+    ssIndex = (ssIndex + 1) % ssPhotos.length;
+    ssShowSlide(ssIndex, false);
+    ssStartTimer();
+  }
+
+  function ssPrev() {
+    ssIndex = (ssIndex - 1 + ssPhotos.length) % ssPhotos.length;
+    ssShowSlide(ssIndex, false);
+    ssStartTimer();
+  }
+
+  function ssGoTo(idx) {
+    ssIndex = idx;
+    ssShowSlide(ssIndex, false);
+    ssStartTimer();
+  }
+
+  function ssTogglePause() {
+    ssPaused = !ssPaused;
+    var btn = document.getElementById('ss-pause-btn');
+    var fill = document.getElementById('ss-timer');
+    if (ssPaused) {
+      btn.textContent = 'Play';
+      clearTimeout(ssTimer);
+      fill.style.transition = 'none';
+      ssTimerRemaining = Math.max(500, ssTimerRemaining - (Date.now() - ssTimerStart));
+    } else {
+      btn.textContent = 'Pause';
+      ssTimerStart = Date.now();
+      fill.style.transition = 'width ' + ssTimerRemaining + 'ms linear';
+      fill.style.width = '100%';
+      ssTimer = setTimeout(function(){ ssNext(); }, ssTimerRemaining);
+    }
+  }
+
+  function stopSlideshow() {
+    clearTimeout(ssTimer);
+    document.getElementById('slideshow').classList.remove('open');
+    document.getElementById('ss-img-a').src = '';
+    document.getElementById('ss-img-b').src = '';
+    document.getElementById('ss-img-a').classList.remove('visible');
+    document.getElementById('ss-img-b').classList.remove('visible');
+    ssActive = 'a';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('slideshow').classList.contains('open')) return;
+    if (e.key === 'ArrowRight') ssNext();
+    if (e.key === 'ArrowLeft') ssPrev();
+    if (e.key === 'Escape') stopSlideshow();
+    if (e.key === ' ') { e.preventDefault(); ssTogglePause(); }
+  });
+
+  function smoothScrollTo(targetY, duration) {
+    var startY = window.scrollY;
+    var distance = targetY - startY;
+    var startTime = null;
+
+    function ease(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      window.scrollTo(0, startY + distance * ease(progress));
+      if (progress < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  function scrollToElement(id) {
+    var el = document.getElementById(id);
+    var navHeight = document.getElementById('topnav').offsetHeight || 0;
+    if (el) smoothScrollTo(el.getBoundingClientRect().top + window.scrollY - navHeight - 16, 1800);
+  }
+
+  // ===================== SCREENS =====================
+  function showScreen(name) {
+    document.getElementById('topnav').style.display = name === 'landing' ? 'none' : 'flex';
+
+    if (name === 'landing') {
+      document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+      document.getElementById('landing').classList.add('active');
+      smoothScrollTo(0, 1800);
+      return;
+    }
+
+    if (name === 'photo-detail') {
+      document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+      document.getElementById('photo-detail').classList.add('active');
+      setActiveNav('nav-gallery');
+      setTimeout(function(){ scrollToElement('photo-detail'); }, 50);
+      return;
+    }
+
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById('landing').classList.add('active');
+
+    if (name === 'gallery') {
+      document.getElementById('gallery').classList.add('active');
+      document.getElementById('gallery-grid').innerHTML = '<p style="color:#888; font-size:0.9rem; padding:2rem 0;">Loading photos...</p>';
+      Promise.all([loadPhotos(), loadAllMemoryCounts()]).then(function(results) {
+        photos = results[0];
+        renderGallery();
+      });
+      setActiveNav('nav-gallery');
+    } else if (name === 'book') {
+      document.getElementById('book').classList.add('active');
+      renderBook();
+      setActiveNav('nav-book');
+    }
+
+    setTimeout(function() { scrollToElement(name); }, 80);
+  }
+
+  function setActiveNav(id) {
+    document.querySelectorAll('.topnav-links button').forEach(function(b){ b.classList.remove('active'); });
+    if (id) document.getElementById(id).classList.add('active');
+  }
+
+  // ===================== GALLERY =====================
+  function renderGallery() {
+    var grid = document.getElementById('gallery-grid');
+    grid.innerHTML = '';
+
+    var sortEl = document.getElementById('sort-select');
+    var sort = sortEl ? sortEl.value : 'added';
+    var sorted = photos.slice();
+
+    if (sort === 'year-asc' || sort === 'year-desc') {
+      sorted.sort(function(a, b) {
+        var extractYear = function(str) {
+          if (!str) return 9999;
+          var match = str.match(/\d{4}/);
+          if (match) return parseInt(match[0]);
+          var match2 = str.match(/\d{2}/);
+          if (match2) {
+            var n = parseInt(match2[0]);
+            return n > 20 ? 1900 + n : 2000 + n;
+          }
+          return 9999;
+        };
+        var ya = extractYear(a.year);
+        var yb = extractYear(b.year);
+        return sort === 'year-asc' ? ya - yb : yb - ya;
+      });
+    }
+
+    sorted.forEach(function(p) {
+      var card = document.createElement('div');
+      card.className = 'photo-card';
+      card.onclick = function(){ openPhoto(p.id); };
+
+      var imgHtml = p.filename
+        ? '<img class="photo-img" src="' + photoUrl(p.filename) + '" alt="' + p.title + '">'
+        : '<div class="photo-img-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#A07840" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>';
+
+      var n = memoryCounts[p.id] || 0;
+      var countClass = n > 0 ? 'mem-count has-memories' : 'mem-count';
+      var countText = n === 0 ? 'No memories yet' : n === 1 ? '1 memory' : n + ' memories';
+
+      card.innerHTML = imgHtml +
+        '<button class="photo-delete-btn" onclick="deletePhoto(event,' + p.id + ',\'' + (p.filename||'') + '\')">Remove</button>' +
+        '<div class="photo-meta"><div class="title">' + p.title + '</div><div class="year">' + p.year + '</div><div class="' + countClass + '">' + countText + '</div></div>';
+      grid.appendChild(card);
+    });
+
+    var newAddTile = document.createElement('div');
+    newAddTile.className = 'add-photo-tile';
+    newAddTile.onclick = function(){ document.getElementById('upload-input').click(); };
+    newAddTile.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Add a photo';
+    grid.appendChild(newAddTile);
+  }
+
+  // ===================== PHOTO DETAIL =====================
+  async function openPhoto(id) {
+    currentPhotoId = id;
+    var p = photos.find(function(x){ return x.id === id; });
+    if (!p) return;
+
+    document.getElementById('detail-title').textContent = p.title;
+    document.getElementById('detail-year').textContent = p.year;
+
+    var imgWrap = document.getElementById('detail-img-wrap');
+    if (p.filename) {
+      imgWrap.innerHTML = '<img class="detail-photo" src="' + photoUrl(p.filename) + '" alt="' + p.title + '">';
+    } else {
+      imgWrap.innerHTML = '<div class="detail-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C9B99A" stroke-width="0.7"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>';
+    }
+
+    document.getElementById('w-author').value = '';
+    document.getElementById('w-text').value = '';
+    document.getElementById('save-confirm').style.display = 'none';
+    document.getElementById('memories-list').innerHTML = '<p class="no-memories">Loading memories...</p>';
+    document.getElementById('mem-section-title').textContent = 'Memories';
+
+    showScreen('photo-detail');
+    if (isAdmin) {
+      document.getElementById('edit-photo-btn').style.display = 'inline-block';
+      document.getElementById('enhance-photo-btn').style.display = 'inline-block';
+    } else {
+      document.getElementById('edit-photo-btn').style.display = 'none';
+      document.getElementById('enhance-photo-btn').style.display = 'none';
+    }
+
+    var memories = await loadMemoriesForPhoto(id);
+    renderMemoriesPanel(memories);
+  }
+
+  function renderMemoriesPanel(memories) {
+    var list = document.getElementById('memories-list');
+    var title = document.getElementById('mem-section-title');
+    var n = memories.length;
+    title.textContent = n === 0 ? 'Memories' : n === 1 ? '1 memory written' : n + ' memories written';
+
+    if (n === 0) {
+      list.innerHTML = '<p class="no-memories">No memories have been written about this photograph yet. Be the first.</p>';
+      return;
+    }
+
+    list.innerHTML = memories.map(function(m){
+      return '<div class="memory-card" style="position:relative;">' +
+        '<div class="mem-author">' + m.author +
+        '<span style="float:right;">' +
+        '<button class="btn-edit" onclick="openEditMemory(' + m.id + ',\'' + m.author.replace(/'/g,"\\'") + '\',\'' + m.memory.replace(/'/g,"\\'").replace(/\n/g,'\\n') + '\')">Edit</button>' +
+        '<button class="btn-delete" onclick="deleteMemory(' + m.id + ')">Remove</button>' +
+        '</span></div>' +
+        '<div class="mem-text">\u201C' + m.memory + '\u201D</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  async function saveMemory() {
+    var author = document.getElementById('w-author').value.trim();
+    var text = document.getElementById('w-text').value.trim();
+    if (!author || !text) { alert('Please add your name and a memory before saving.'); return; }
+
+    var btn = document.querySelector('.btn-save');
+    btn.textContent = 'Saving...';
+    btn.disabled = true;
+
+    var ok = await saveMemoryToDb(currentPhotoId, author, text);
+
+    btn.textContent = 'Save this memory';
+    btn.disabled = false;
+
+    if (!ok) { alert('Something went wrong saving — please try again.'); return; }
+
+    document.getElementById('w-author').value = '';
+    document.getElementById('w-text').value = '';
+    document.getElementById('save-confirm').style.display = 'block';
+    setTimeout(function(){ document.getElementById('save-confirm').style.display = 'none'; }, 3000);
+
+    memoryCounts[currentPhotoId] = (memoryCounts[currentPhotoId] || 0) + 1;
+    var memories = await loadMemoriesForPhoto(currentPhotoId);
+    renderMemoriesPanel(memories);
+  }
+
+  // ===================== BOOK =====================
+  async function renderBook() {
+    var container = document.getElementById('book-spreads');
+    container.innerHTML = '<p style="font-family: Playfair Display, serif; font-style:italic; color:#888; padding: 2rem 0;">Loading memories...</p>';
+
+    var res = await supaFetch('memories?order=photo_id.asc,created_at.asc');
+    var allMemories = res.ok ? await res.json() : [];
+
+    container.innerHTML = '';
+
+    photos.forEach(function(p, i) {
+      var spread = document.createElement('div');
+      spread.className = 'book-spread';
+
+      var imgHtml = p.filename
+        ? '<img class="book-photo" src="' + photoUrl(p.filename) + '" alt="' + p.title + '">'
+        : '<div class="book-photo"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9B99A" stroke-width="0.7"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>';
+
+      var photoMemories = allMemories.filter(function(m){ return m.photo_id === p.id; });
+      var memoriesHtml = photoMemories.length === 0
+        ? '<div class="book-empty">No memories written yet.</div>'
+        : photoMemories.map(function(m){
+            return '<div class="book-memory"><div class="bm-author">' + m.author + '</div><div class="bm-text">\u201C' + m.memory + '\u201D</div></div>';
+          }).join('');
+
+      var num = (i + 1) < 10 ? '0' + (i + 1) : '' + (i + 1);
+      spread.innerHTML =
+        '<div class="book-spread-header">' +
+          '<div class="book-spread-num">' + num + '</div>' +
+          '<div class="book-spread-info"><h3>' + p.title + '</h3><p>' + p.year + '</p></div>' +
+        '</div>' +
+        '<div class="book-spread-body">' +
+          imgHtml +
+          '<div class="book-memories">' + memoriesHtml + '</div>' +
+        '</div>';
+
+      container.appendChild(spread);
+    });
+  }
+
+  // ===================== UPLOAD =====================
+  function handleUpload(e) {
+    var files = Array.from(e.target.files);
+    if (files.length === 0) return;
+    pendingFiles = files;
+    pendingFileIndex = 0;
+    openModalForFile();
+    e.target.value = '';
+  }
+
+  function openModalForFile() {
+    if (pendingFileIndex >= pendingFiles.length) return;
+    document.getElementById('modal-title').value = '';
+    document.getElementById('modal-year').value = '';
+    document.getElementById('upload-modal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('upload-modal').classList.remove('open');
+    pendingFiles = [];
+    pendingFileIndex = 0;
+  }
+
+  async function confirmUpload() {
+    var title = document.getElementById('modal-title').value.trim() || 'Untitled photo';
+    var year = document.getElementById('modal-year').value.trim() || '';
+    var file = pendingFiles[pendingFileIndex];
+
+    var saveBtn = document.querySelector('.btn-modal-save');
+    saveBtn.textContent = 'Uploading...';
+    saveBtn.disabled = true;
+
+    var result = await uploadPhoto(file, title, year);
+
+    saveBtn.textContent = 'Add to gallery';
+    saveBtn.disabled = false;
+
+    if (!result) {
+      return;
+    }
+
+    pendingFileIndex++;
+    document.getElementById('upload-modal').classList.remove('open');
+
+    if (pendingFileIndex < pendingFiles.length) {
+      setTimeout(openModalForFile, 300);
+    } else {
+      pendingFiles = [];
+      pendingFileIndex = 0;
+      var results = await Promise.all([loadPhotos(), loadAllMemoryCounts()]);
+      photos = results[0];
+      renderGallery();
+    }
+  }
+
+  // iOS Safari needs the event listener attached after page load
+  window.addEventListener('DOMContentLoaded', function() {
+    var input = document.getElementById('upload-input');
+    if (input) {
+      input.addEventListener('change', function(e) {
+        var files = Array.from(e.target.files);
+        if (files.length === 0) return;
+        pendingFiles = files;
+        pendingFileIndex = 0;
+        openModalForFile();
+        // Reset input so same file can be selected again if needed
+        e.target.value = '';
+      });
+    }
+  });
+</script>
+</body>
+</html>
