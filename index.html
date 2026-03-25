@@ -1619,18 +1619,24 @@
     var res1 = await loadPhotos();
     ssPhotos = res1.filter(function(p){ return p.filename; });
     if (ssPhotos.length === 0) { alert('No photos to show yet — add some first!'); return; }
+
     ssMemories = {};
-    for (var i = 0; i < ssPhotos.length; i++) {
-      var mems = await loadMemoriesForPhoto(ssPhotos[i].id);
-      ssMemories[ssPhotos[i].id] = mems;
-    }
     ssIndex = 0;
     ssPaused = false;
     document.getElementById('ss-pause-btn').textContent = 'Pause';
     document.getElementById('slideshow').classList.add('open');
     buildSsDots();
-    ssShowSlide(ssIndex, true);
+
+    // Load first photo's memories then show immediately
+    ssMemories[ssPhotos[0].id] = await loadMemoriesForPhoto(ssPhotos[0].id);
+    ssShowSlide(0, true);
     ssStartTimer();
+
+    // Load remaining memories in background without blocking
+    for (var i = 1; i < ssPhotos.length; i++) {
+      var mems = await loadMemoriesForPhoto(ssPhotos[i].id);
+      ssMemories[ssPhotos[i].id] = mems;
+    }
   }
 
   function buildSsDots() {
@@ -1692,6 +1698,13 @@
       document.getElementById('ss-memory-author').textContent = '';
     }
     ssUpdateDots();
+
+    // Preload next image in background
+    var nextIdx = (idx + 1) % ssPhotos.length;
+    if (ssPhotos[nextIdx] && ssPhotos[nextIdx].filename) {
+      var preload = new Image();
+      preload.src = photoUrl(ssPhotos[nextIdx].filename);
+    }
   }
 
   function ssStartTimer() {
