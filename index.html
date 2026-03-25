@@ -962,19 +962,30 @@
     display: flex;
     gap: 6px;
     align-items: center;
-    flex-wrap: wrap;
     justify-content: center;
     flex: 1;
+    overflow: hidden;
+    max-width: 80px;
+    position: relative;
+  }
+
+  .slideshow-dots-inner {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    transition: transform 0.3s ease;
   }
 
   .slideshow-dot {
     width: 6px; height: 6px;
     border-radius: 50%;
     background: #3A3028;
-    transition: background 0.3s, transform 0.3s;
+    transition: background 0.3s, transform 0.3s, width 0.3s, height 0.3s, opacity 0.3s;
     cursor: pointer;
+    flex-shrink: 0;
   }
   .slideshow-dot.active { background: var(--gold); transform: scale(1.4); }
+  .slideshow-dot.small { width: 4px; height: 4px; opacity: 0.5; }
 
   .slideshow-timer-bar { height: 2px; background: #1A1410; }
   .slideshow-timer-fill {
@@ -1217,7 +1228,7 @@
   </div>
   <div class="slideshow-controls">
     <button class="slideshow-nav-btn" onclick="ssPrev()">&#8592; Prev</button>
-    <div class="slideshow-progress" id="ss-dots"></div>
+    <div class="slideshow-progress" id="ss-dots"><div class="slideshow-dots-inner" id="ss-dots-inner"></div></div>
     <button class="slideshow-nav-btn" onclick="ssNext()">Next &#8594;</button>
     <button style="background:none;border:0.5px solid #3A3028;color:#9A8870;font-family:'Source Sans 3',sans-serif;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.2rem;cursor:pointer;border-radius:1px;margin-left:8px;" onclick="ssTogglePause()" id="ss-pause-btn">Pause</button>
     <button style="background:none;border:none;color:#5A4A38;font-size:1.4rem;cursor:pointer;padding:0.4rem;margin-left:4px;" onclick="stopSlideshow()" title="Close">&#10005;</button>
@@ -1623,16 +1634,32 @@
   }
 
   function buildSsDots() {
-    var dots = document.getElementById('ss-dots');
-    dots.innerHTML = ssPhotos.map(function(p, i){
-      return '<div class="slideshow-dot' + (i === 0 ? ' active' : '') + '" onclick="ssGoTo(' + i + ')"></div>';
+    var inner = document.getElementById('ss-dots-inner');
+    inner.innerHTML = ssPhotos.map(function(p, i){
+      return '<div class="slideshow-dot" onclick="ssGoTo(' + i + ')"></div>';
     }).join('');
+    ssUpdateDots();
   }
 
   function ssUpdateDots() {
-    document.getElementById('ss-dots').querySelectorAll('.slideshow-dot').forEach(function(d, i){
-      d.classList.toggle('active', i === ssIndex);
+    var inner = document.getElementById('ss-dots-inner');
+    var dots = inner.querySelectorAll('.slideshow-dot');
+    var total = ssPhotos.length;
+    var window = 5;
+    var half = Math.floor(window / 2);
+
+    dots.forEach(function(d, i){
+      d.classList.remove('active', 'small');
+      if (i === ssIndex) {
+        d.classList.add('active');
+      } else if (Math.abs(i - ssIndex) === half) {
+        d.classList.add('small');
+      }
     });
+
+    var dotWidth = 12;
+    var offset = Math.max(0, Math.min(ssIndex - half, total - window)) * dotWidth;
+    inner.style.transform = 'translateX(-' + offset + 'px)';
   }
 
   function ssShowSlide(idx, instant) {
