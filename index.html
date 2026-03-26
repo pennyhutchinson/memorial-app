@@ -2010,12 +2010,25 @@
     var container = document.getElementById('book-spreads');
     container.innerHTML = '<p style="font-family: Playfair Display, serif; font-style:italic; color:#888; padding: 2rem 0;">Loading memories...</p>';
 
-    var res = await supaFetch('memories?order=photo_id.asc,created_at.asc');
-    var allMemories = res.ok ? await res.json() : [];
+    var results = await Promise.all([
+      loadPhotos(),
+      supaFetch('memories?order=photo_id.asc,created_at.asc')
+    ]);
+
+    var bookPhotos = results[0];
+    var allMemories = results[1].ok ? await results[1].json() : [];
+
+    // Also update the global photos array in case gallery loads next
+    if (bookPhotos.length > 0) photos = bookPhotos;
+
+    if (bookPhotos.length === 0) {
+      container.innerHTML = '<p style="font-family: Playfair Display, serif; font-style:italic; color:#888; padding: 2rem 0;">No photos have been added yet.</p>';
+      return;
+    }
 
     container.innerHTML = '';
 
-    photos.forEach(function(p, i) {
+    bookPhotos.forEach(function(p, i) {
       var spread = document.createElement('div');
       spread.className = 'book-spread';
 
