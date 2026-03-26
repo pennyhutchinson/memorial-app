@@ -960,32 +960,44 @@
 
   .slideshow-progress {
     display: flex;
-    gap: 6px;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     flex: 1;
-    overflow: hidden;
-    max-width: 80px;
-    position: relative;
-  }
-
-  .slideshow-dots-inner {
-    display: flex;
     gap: 6px;
-    align-items: center;
-    transition: transform 0.3s ease;
+    padding: 0 1rem;
   }
 
-  .slideshow-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #3A3028;
-    transition: background 0.3s, transform 0.3s, width 0.3s, height 0.3s, opacity 0.3s;
-    cursor: pointer;
-    flex-shrink: 0;
+  .slideshow-counter {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: #6A5A48;
+    text-transform: uppercase;
   }
-  .slideshow-dot.active { background: var(--gold); transform: scale(1.4); }
-  .slideshow-dot.small { width: 4px; height: 4px; opacity: 0.5; }
+
+  .slideshow-counter span {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .slideshow-segments {
+    display: flex;
+    gap: 2px;
+    width: 100%;
+    max-width: 200px;
+    height: 3px;
+  }
+
+  .slideshow-segment {
+    flex: 1;
+    background: #2A221A;
+    border-radius: 2px;
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+  .slideshow-segment.active { background: var(--gold); }
+  .slideshow-segment.past { background: #4A3A28; }
 
   .slideshow-timer-bar { height: 2px; background: #1A1410; }
   .slideshow-timer-fill {
@@ -1228,7 +1240,10 @@
   </div>
   <div class="slideshow-controls">
     <button class="slideshow-nav-btn" onclick="ssPrev()">&#8592; Prev</button>
-    <div class="slideshow-progress" id="ss-dots"><div class="slideshow-dots-inner" id="ss-dots-inner"></div></div>
+    <div class="slideshow-progress" id="ss-dots">
+      <div class="slideshow-counter"><span id="ss-current">1</span> of <span id="ss-total">1</span></div>
+      <div class="slideshow-segments" id="ss-segments"></div>
+    </div>
     <button class="slideshow-nav-btn" onclick="ssNext()">Next &#8594;</button>
     <button style="background:none;border:0.5px solid #3A3028;color:#9A8870;font-family:'Source Sans 3',sans-serif;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.2rem;cursor:pointer;border-radius:1px;margin-left:8px;" onclick="ssTogglePause()" id="ss-pause-btn">Pause</button>
     <button style="background:none;border:none;color:#5A4A38;font-size:1.4rem;cursor:pointer;padding:0.4rem;margin-left:4px;" onclick="stopSlideshow()" title="Close">&#10005;</button>
@@ -1640,32 +1655,39 @@
   }
 
   function buildSsDots() {
-    var inner = document.getElementById('ss-dots-inner');
-    inner.innerHTML = ssPhotos.map(function(p, i){
-      return '<div class="slideshow-dot" onclick="ssGoTo(' + i + ')"></div>';
+    var total = ssPhotos.length;
+    document.getElementById('ss-total').textContent = total;
+
+    var segments = document.getElementById('ss-segments');
+
+    // For large decks, cap segments at 20 and group slides
+    var segCount = Math.min(total, 20);
+    segments.innerHTML = Array.from({length: segCount}, function(_, i){
+      return '<div class="slideshow-segment" onclick="ssGoToSegment(' + i + ',' + segCount + ')"></div>';
     }).join('');
+
     ssUpdateDots();
   }
 
-  function ssUpdateDots() {
-    var inner = document.getElementById('ss-dots-inner');
-    var dots = inner.querySelectorAll('.slideshow-dot');
+  function ssGoToSegment(segIdx, segCount) {
     var total = ssPhotos.length;
-    var window = 5;
-    var half = Math.floor(window / 2);
+    var targetSlide = Math.round((segIdx / segCount) * total);
+    ssGoTo(Math.min(targetSlide, total - 1));
+  }
 
-    dots.forEach(function(d, i){
-      d.classList.remove('active', 'small');
-      if (i === ssIndex) {
-        d.classList.add('active');
-      } else if (Math.abs(i - ssIndex) === half) {
-        d.classList.add('small');
-      }
+  function ssUpdateDots() {
+    var total = ssPhotos.length;
+    var segCount = Math.min(total, 20);
+    var activeSeg = Math.floor((ssIndex / total) * segCount);
+
+    document.getElementById('ss-current').textContent = ssIndex + 1;
+
+    var segs = document.getElementById('ss-segments').querySelectorAll('.slideshow-segment');
+    segs.forEach(function(s, i){
+      s.classList.remove('active', 'past');
+      if (i === activeSeg) s.classList.add('active');
+      else if (i < activeSeg) s.classList.add('past');
     });
-
-    var dotWidth = 12;
-    var offset = Math.max(0, Math.min(ssIndex - half, total - window)) * dotWidth;
-    inner.style.transform = 'translateX(-' + offset + 'px)';
   }
 
   function ssShowSlide(idx, instant) {
