@@ -806,6 +806,8 @@
   }
   .btn-edit:hover { background: #3498db; }
   .admin-mode .btn-edit { display: inline-block; }
+
+  .btn-delete {
     background: #c0392b;
     color: white;
     border: none;
@@ -873,63 +875,104 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 0;
   }
 
+  .slideshow-img-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(24px);
+    transform: scale(1.15);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .slideshow-img-bg.visible { opacity: 0.35; }
+
   .slideshow-img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     opacity: 0;
     transition: opacity 0.8s ease;
     position: absolute;
+    z-index: 1;
   }
   .slideshow-img.visible { opacity: 1; }
 
-  .slideshow-info {
+  .slideshow-scrim {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    padding: 3rem 2.5rem 1.5rem;
     pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(transparent, rgba(5,3,1,0.95));
+    height: 0;
+    transition: height 0.4s ease;
+  }
+
+  /* Portrait panel — always visible, sits below the image wrap */
+  .slideshow-text-panel-portrait {
+    background: #0D0A08;
+    padding: 0.85rem 1.5rem 0.6rem;
+    border-top: 0.5px solid #2A221A;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  /* Landscape panel — absolute overlay inside image wrap, hidden in portrait */
+  .slideshow-text-panel-landscape {
+    display: none;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: transparent;
+    padding: 1rem 1.5rem 0.75rem;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  @media (orientation: landscape) {
+    .slideshow-text-panel-portrait { display: none; }
+    .slideshow-text-panel-landscape { display: block; }
   }
 
   .slideshow-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
     font-weight: 400;
     color: #F0EAE0;
-    margin-bottom: 0.25rem;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+    margin-bottom: 0.15rem;
+    line-height: 1.2;
   }
 
   .slideshow-year {
     font-family: 'Playfair Display', Georgia, serif;
     font-style: italic;
-    font-size: 1rem;
+    font-size: clamp(0.78rem, 1.4vw, 0.9rem);
     color: #B8A888;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.4rem;
   }
 
   .slideshow-memory {
     font-family: 'Playfair Display', Georgia, serif;
     font-style: italic;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-size: clamp(0.8rem, 1.6vw, 0.95rem);
     color: #C8B898;
-    line-height: 1.7;
-    max-width: 680px;
+    line-height: 1.55;
+    max-width: 640px;
     opacity: 0;
-    transition: opacity 1s ease 0.6s;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+    transition: opacity 0.6s ease;
   }
   .slideshow-memory.visible { opacity: 1; }
 
   .slideshow-memory-author {
     font-family: 'Source Sans 3', sans-serif;
     font-style: normal;
-    font-size: 0.72rem;
+    font-size: 0.65rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: #7A6850;
-    margin-top: 0.4rem;
+    margin-top: 0.25rem;
   }
 
   .slideshow-controls {
@@ -1227,15 +1270,28 @@
 <div class="slideshow-overlay" id="slideshow">
   <div class="slideshow-timer-bar"><div class="slideshow-timer-fill" id="ss-timer"></div></div>
   <div class="slideshow-img-wrap">
+    <div class="slideshow-img-bg" id="ss-bg-a"></div>
+    <div class="slideshow-img-bg" id="ss-bg-b"></div>
     <img class="slideshow-img" id="ss-img-a" src="" alt="">
     <img class="slideshow-img" id="ss-img-b" src="" alt="">
-    <div class="slideshow-info">
-      <div class="slideshow-title" id="ss-title"></div>
-      <div class="slideshow-year" id="ss-year"></div>
-      <div class="slideshow-memory" id="ss-memory">
-        <span id="ss-memory-text"></span>
-        <div class="slideshow-memory-author" id="ss-memory-author"></div>
+    <div class="slideshow-scrim" id="ss-scrim"></div>
+    <!-- Text panel inside img-wrap for landscape overlay -->
+    <div class="slideshow-text-panel-landscape" id="ss-text-landscape">
+      <div class="slideshow-title" id="ss-title-l"></div>
+      <div class="slideshow-year" id="ss-year-l"></div>
+      <div class="slideshow-memory" id="ss-memory-l">
+        <span id="ss-memory-text-l"></span>
+        <div class="slideshow-memory-author" id="ss-memory-author-l"></div>
       </div>
+    </div>
+  </div>
+  <!-- Text panel outside img-wrap for portrait — always visible below photo -->
+  <div class="slideshow-text-panel-portrait" id="ss-text-portrait">
+    <div class="slideshow-title" id="ss-title-p"></div>
+    <div class="slideshow-year" id="ss-year-p"></div>
+    <div class="slideshow-memory" id="ss-memory-p">
+      <span id="ss-memory-text-p"></span>
+      <div class="slideshow-memory-author" id="ss-memory-author-p"></div>
     </div>
   </div>
   <div class="slideshow-controls">
@@ -1690,38 +1746,97 @@
     });
   }
 
+  var ssMemoryCycleTimer = null;
+  var ssMemoryCycleIndex = 0;
+
+  function ssClearMemoryCycle() {
+    if (ssMemoryCycleTimer) { clearInterval(ssMemoryCycleTimer); ssMemoryCycleTimer = null; }
+  }
+
+  function ssShowMemory(mems, memIdx) {
+    ['l','p'].forEach(function(s){
+      var mem = document.getElementById('ss-memory-' + s);
+      mem.classList.remove('visible');
+    });
+    if (!mems || mems.length === 0) {
+      ['l','p'].forEach(function(s){
+        document.getElementById('ss-memory-text-' + s).textContent = '';
+        document.getElementById('ss-memory-author-' + s).textContent = '';
+      });
+      return;
+    }
+    var m = mems[memIdx % mems.length];
+    ['l','p'].forEach(function(s){
+      document.getElementById('ss-memory-text-' + s).textContent = '\u201C' + m.memory + '\u201D';
+      document.getElementById('ss-memory-author-' + s).textContent = '— ' + m.author;
+      setTimeout(function(){
+        document.getElementById('ss-memory-' + s).classList.add('visible');
+      }, 50);
+    });
+  }
+
+  function ssStartMemoryCycle(mems) {
+    ssClearMemoryCycle();
+    ssMemoryCycleIndex = 0;
+    ssShowMemory(mems, 0);
+    if (mems.length > 1) {
+      ssMemoryCycleTimer = setInterval(function() {
+        ssMemoryCycleIndex++;
+        ssShowMemory(mems, ssMemoryCycleIndex);
+      }, 4000);
+    }
+  }
+
   function ssShowSlide(idx, instant) {
     var p = ssPhotos[idx];
     var incoming = ssActive === 'a' ? 'b' : 'a';
     var imgIn = document.getElementById('ss-img-' + incoming);
     var imgOut = document.getElementById('ss-img-' + ssActive);
-    var mem = document.getElementById('ss-memory');
+    var bgIn = document.getElementById('ss-bg-' + incoming);
+    var bgOut = document.getElementById('ss-bg-' + ssActive);
 
-    imgIn.src = photoUrl(p.filename);
+    ssClearMemoryCycle();
+
+    var url = photoUrl(p.filename);
+    imgIn.src = url;
+    bgIn.style.backgroundImage = 'url(' + url + ')';
     imgIn.classList.remove('visible');
+    bgIn.classList.remove('visible');
+
     imgIn.onload = function() {
-      if (!instant) imgOut.classList.remove('visible');
+      if (!instant) {
+        imgOut.classList.remove('visible');
+        bgOut.classList.remove('visible');
+      }
       imgIn.classList.add('visible');
+      bgIn.classList.add('visible');
       ssActive = incoming;
     };
 
-    document.getElementById('ss-title').textContent = p.title;
-    document.getElementById('ss-year').textContent = p.year || '';
+    document.getElementById('ss-title-l').textContent = p.title;
+    document.getElementById('ss-year-l').textContent = p.year || '';
+    document.getElementById('ss-title-p').textContent = p.title;
+    document.getElementById('ss-year-p').textContent = p.year || '';
 
-    mem.classList.remove('visible');
     var mems = ssMemories[p.id] || [];
-    if (mems.length > 0) {
-      var m = mems[Math.floor(Math.random() * mems.length)];
-      document.getElementById('ss-memory-text').textContent = '\u201C' + m.memory + '\u201D';
-      document.getElementById('ss-memory-author').textContent = '— ' + m.author;
-      setTimeout(function(){ mem.classList.add('visible'); }, 500);
-    } else {
-      document.getElementById('ss-memory-text').textContent = '';
-      document.getElementById('ss-memory-author').textContent = '';
-    }
+    ssDuration = mems.length <= 1 ? 5000 : mems.length * 4000;
+
+    ssStartMemoryCycle(mems);
     ssUpdateDots();
 
-    // Preload next image in background
+    // Update scrim height in landscape to match text panel height
+    var isLandscape = window.matchMedia('(orientation: landscape)').matches;
+    if (isLandscape) {
+      setTimeout(function() {
+        var panel = document.getElementById('ss-text-landscape');
+        var scrim = document.getElementById('ss-scrim');
+        scrim.style.height = (panel.offsetHeight + 48) + 'px';
+      }, 60);
+    } else {
+      document.getElementById('ss-scrim').style.height = '0px';
+    }
+
+    // Preload next image
     var nextIdx = (idx + 1) % ssPhotos.length;
     if (ssPhotos[nextIdx] && ssPhotos[nextIdx].filename) {
       var preload = new Image();
@@ -1782,11 +1897,15 @@
 
   function stopSlideshow() {
     clearTimeout(ssTimer);
+    ssClearMemoryCycle();
     document.getElementById('slideshow').classList.remove('open');
-    document.getElementById('ss-img-a').src = '';
-    document.getElementById('ss-img-b').src = '';
-    document.getElementById('ss-img-a').classList.remove('visible');
-    document.getElementById('ss-img-b').classList.remove('visible');
+    ['a','b'].forEach(function(x){
+      document.getElementById('ss-img-' + x).src = '';
+      document.getElementById('ss-img-' + x).classList.remove('visible');
+      document.getElementById('ss-bg-' + x).style.backgroundImage = '';
+      document.getElementById('ss-bg-' + x).classList.remove('visible');
+    });
+    document.getElementById('ss-scrim').style.height = '0px';
     ssActive = 'a';
   }
 
