@@ -374,6 +374,12 @@
     top: 90px;
   }
 
+  @media (max-width: 680px) {
+    .detail-photo-wrap {
+      position: static;
+    }
+  }
+
   .detail-photo {
     width: 100%;
     aspect-ratio: 4/3;
@@ -982,7 +988,8 @@
     padding: 0.75rem 1.5rem;
     background: #0D0A08;
     border-top: 0.5px solid #2A221A;
-    gap: 1rem;
+    gap: 0.5rem;
+    flex-shrink: 0;
   }
 
   .slideshow-nav-btn {
@@ -997,9 +1004,19 @@
     cursor: pointer;
     border-radius: 1px;
     transition: all 0.2s;
-    min-width: 80px;
+    white-space: nowrap;
   }
   .slideshow-nav-btn:hover { border-color: var(--gold); color: var(--gold-pale); }
+
+  .ss-btn-text { display: inline; }
+  .ss-btn-icon { display: none; }
+
+  @media (max-width: 520px) {
+    .slideshow-controls { padding: 0.5rem 0.75rem; gap: 0.3rem; }
+    .slideshow-nav-btn { padding: 0.5rem 0.7rem; font-size: 1rem; letter-spacing: 0; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+    .ss-btn-text { display: none; }
+    .ss-btn-icon { display: inline; }
+  }
 
   .slideshow-progress {
     display: flex;
@@ -1049,18 +1066,193 @@
     width: 0%;
   }
 
+  /* ===================== TAGGING ===================== */
+  .detail-img-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    cursor: crosshair;
+  }
+  .detail-img-container.view-mode { cursor: default; }
+
+  .tag-bubble {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    background: rgba(10,7,4,0.82);
+    color: #F0EAE0;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    padding: 3px 8px 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+  .tag-bubble::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: rgba(10,7,4,0.82);
+  }
+  .tag-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 2px solid #F0EAE0;
+    background: rgba(10,7,4,0.5);
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.15s;
+  }
+  .tag-dot:hover { transform: translate(-50%,-50%) scale(1.3); }
+  .tag-dot:hover + .tag-bubble,
+  .tag-dot.active + .tag-bubble { opacity: 1; }
+
+  .tag-mode-bar {
+    display: none;
+    background: #1A3A1A;
+    color: #90C890;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    padding: 6px 12px;
+    border-radius: 2px;
+    margin-bottom: 8px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .tag-mode-bar.active { display: flex; }
+
+  /* Slideshow filter panel */
+  .ss-filter-panel {
+    display: none;
+    position: absolute;
+    top: 0; right: 0;
+    background: rgba(13,10,8,0.96);
+    border-left: 0.5px solid #3A3028;
+    border-bottom: 0.5px solid #3A3028;
+    padding: 1rem;
+    z-index: 10;
+    min-width: 200px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .ss-filter-panel.open { display: block; }
+
+  .ss-filter-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #7A6850;
+    margin-bottom: 0.75rem;
+  }
+
+  .ss-filter-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.82rem;
+    color: #C8B898;
+    cursor: pointer;
+    border-bottom: 0.5px solid #2A221A;
+  }
+  .ss-filter-name:last-child { border-bottom: none; }
+  .ss-filter-name input { accent-color: var(--gold); cursor: pointer; }
+
+  .ss-filter-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 0.75rem;
+  }
+
+  .ss-filter-btn-sm {
+    flex: 1;
+    background: none;
+    border: 0.5px solid #3A3028;
+    color: #9A8870;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 8px;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: all 0.2s;
+  }
+  .ss-filter-btn-sm:hover { border-color: var(--gold); color: var(--gold-pale); }
+
+  /* Slideshow tag overlay */
+  .ss-tag-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.8);
+    background: rgba(10,7,4,0.5);
+    z-index: 5;
+    pointer-events: none;
+  }
+  .ss-tag-bubble {
+    position: absolute;
+    transform: translate(-50%, -140%);
+    background: rgba(10,7,4,0.82);
+    color: #F0EAE0;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 2px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 5;
+  }
+
   @media print {
-    .topnav, #landing, #gallery, #photo-detail, .print-bar { display: none !important; }
+    @page { size: landscape; margin: 1.5cm; }
+    .topnav, #landing, #gallery, #photo-detail, .print-bar, .site-gate { display: none !important; }
     #book { display: block !important; }
-    .page { padding: 0; }
-    .book-spread-body { break-inside: avoid; }
+    .page { padding: 0; max-width: 100%; }
+    .book-intro { margin-bottom: 1rem; }
+    .book-spread { break-before: page; break-inside: avoid; page-break-before: always; }
+    .book-spread:first-child { break-before: auto; page-break-before: auto; }
+    .book-spread-body { display: grid; grid-template-columns: 50% 1fr; gap: 1.5rem; }
+    .book-photo { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
     body { background: white; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
 <body>
 
-<!-- LANDING -->
+<!-- PASSWORD GATE -->
+<div id="password-gate" style="position:fixed;inset:0;background:#1E1410;display:flex;align-items:center;justify-content:center;z-index:9999;padding:2rem;">
+  <div style="text-align:center;max-width:380px;width:100%;">
+    <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:2.4rem;font-weight:300;color:#D4AA70;margin-bottom:0.4rem;">Pauline Sawyer</div>
+    <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:1rem;color:#7A6550;margin-bottom:2.5rem;letter-spacing:0.08em;">A life remembered</div>
+    <div style="width:40px;height:0.5px;background:#8B6320;margin:0 auto 2.5rem;opacity:0.6;"></div>
+    <p style="font-family:'Source Sans 3',sans-serif;font-size:0.85rem;color:#7A6550;margin-bottom:1.5rem;line-height:1.7;letter-spacing:0.04em;">This memorial is private.<br>Please enter the password to continue.</p>
+    <input type="password" id="gate-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkGate()"
+      style="width:100%;background:#2A1E14;border:0.5px solid #4A3828;border-radius:1px;padding:0.85rem 1rem;font-family:'Source Sans 3',sans-serif;font-size:0.9rem;color:#E8DDD0;margin-bottom:0.75rem;outline:none;text-align:center;letter-spacing:0.1em;">
+    <div id="gate-error" style="color:#c0392b;font-size:0.78rem;font-family:'Source Sans 3',sans-serif;margin-bottom:0.75rem;min-height:1.2em;letter-spacing:0.04em;"></div>
+    <button onclick="checkGate()"
+      style="width:100%;background:#8B6320;color:#FFF8EE;border:none;padding:0.9rem;font-family:'Source Sans 3',sans-serif;font-size:0.78rem;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;border-radius:1px;transition:background 0.2s;"
+      onmouseover="this.style.background='#A87C30'" onmouseout="this.style.background='#8B6320'">
+      Enter
+    </button>
+  </div>
+</div>
+
+<!-- SITE (hidden until password entered) -->
+<div id="site-wrap" style="display:none;">
 <div id="landing" class="screen active">
   <div class="landing-inner">
     <div class="landing-rule"></div>
@@ -1128,13 +1320,18 @@
     </button>
     <div class="detail-layout">
       <div class="detail-photo-wrap">
-        <div id="detail-img-wrap"></div>
+        <div class="tag-mode-bar" id="tag-mode-bar">
+          <span>Tag mode — click anywhere on the photo to tag a person</span>
+          <button onclick="exitTagMode()" style="background:none;border:0.5px solid #90C890;color:#90C890;font-family:'Source Sans 3',sans-serif;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;cursor:pointer;border-radius:1px;">Done</button>
+        </div>
+        <div id="detail-img-wrap" class="detail-img-container view-mode" onclick="handlePhotoClick(event)"></div>
         <div class="detail-photo-caption">
           <h3 id="detail-title"></h3>
           <p id="detail-year"></p>
           <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
             <button class="btn-edit" style="display:none;" id="edit-photo-btn" onclick="openEditPhoto()">Edit title &amp; year</button>
             <button class="btn-edit" style="display:none; background:#5a7a3a;" id="enhance-photo-btn" onclick="openEnhance()">Enhance photo</button>
+            <button class="btn-edit" style="display:inline-block; background:#3a5a7a;" id="tag-toggle-btn" onclick="toggleTagMode()">Tag people</button>
           </div>
         </div>
       </div>
@@ -1171,7 +1368,23 @@
   </div>
 </div>
 
-<!-- UPLOAD MODAL -->
+<!-- TAG MODAL -->
+<div class="modal-overlay" id="tag-modal">
+  <div class="modal">
+    <h3>Who is this?</h3>
+    <p>Type a name or pick from people already tagged in this memorial.</p>
+    <label class="field-label">Name</label>
+    <input type="text" id="tag-name-input" placeholder="e.g. Auntie Jean" list="tag-names-list" autocomplete="off">
+    <datalist id="tag-names-list"></datalist>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="cancelTag()">Cancel</button>
+      <button class="btn-modal-save" onclick="confirmTag()">Save tag</button>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDESHOW FILTER PANEL (inside slideshow overlay) -->
+
 <div class="modal-overlay" id="upload-modal">
   <div class="modal">
     <h3>Name this photo</h3>
@@ -1275,6 +1488,20 @@
     <img class="slideshow-img" id="ss-img-a" src="" alt="">
     <img class="slideshow-img" id="ss-img-b" src="" alt="">
     <div class="slideshow-scrim" id="ss-scrim"></div>
+    <div class="ss-filter-panel" id="ss-filter-panel">
+      <div class="ss-filter-title">Filter by person</div>
+      <div id="ss-filter-names"></div>
+      <div class="ss-filter-actions">
+        <button class="ss-filter-btn-sm" onclick="applyFilter()">Apply</button>
+        <button class="ss-filter-btn-sm" onclick="clearFilter()">Clear all</button>
+      </div>
+      <div style="border-top:0.5px solid #2A221A; margin-top:0.75rem; padding-top:0.75rem;">
+        <label class="ss-filter-name" style="cursor:pointer;">
+          <input type="checkbox" id="ss-show-tags-chk" onchange="toggleSsTags()"> Show tags on photos
+        </label>
+      </div>
+    </div>
+    <div id="ss-tag-overlay" style="position:absolute;inset:0;pointer-events:none;z-index:4;"></div>
     <!-- Text panel inside img-wrap for landscape overlay -->
     <div class="slideshow-text-panel-landscape" id="ss-text-landscape">
       <div class="slideshow-title" id="ss-title-l"></div>
@@ -1295,18 +1522,47 @@
     </div>
   </div>
   <div class="slideshow-controls">
-    <button class="slideshow-nav-btn" onclick="ssPrev()">&#8592; Prev</button>
+    <button class="slideshow-nav-btn" onclick="ssPrev()"><span class="ss-btn-icon">&#8592;</span><span class="ss-btn-text">&#8592; Prev</span></button>
     <div class="slideshow-progress" id="ss-dots">
       <div class="slideshow-counter"><span id="ss-current">1</span> of <span id="ss-total">1</span></div>
       <div class="slideshow-segments" id="ss-segments"></div>
     </div>
-    <button class="slideshow-nav-btn" onclick="ssNext()">Next &#8594;</button>
-    <button style="background:none;border:0.5px solid #3A3028;color:#9A8870;font-family:'Source Sans 3',sans-serif;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.2rem;cursor:pointer;border-radius:1px;margin-left:8px;" onclick="ssTogglePause()" id="ss-pause-btn">Pause</button>
-    <button style="background:none;border:none;color:#5A4A38;font-size:1.4rem;cursor:pointer;padding:0.4rem;margin-left:4px;" onclick="stopSlideshow()" title="Close">&#10005;</button>
+    <button class="slideshow-nav-btn" onclick="ssNext()"><span class="ss-btn-icon">&#8594;</span><span class="ss-btn-text">Next &#8594;</span></button>
+    <button class="slideshow-nav-btn" onclick="ssTogglePause()" id="ss-pause-btn"><span class="ss-btn-icon" id="ss-pause-icon">&#9646;&#9646;</span><span class="ss-btn-text" id="ss-pause-text">Pause</span></button>
+    <button class="slideshow-nav-btn" onclick="toggleSsFilter()" id="ss-filter-btn" title="Filter by person"><span class="ss-btn-icon">&#9776;</span><span class="ss-btn-text">Filter</span></button>
+    <button class="slideshow-nav-btn" onclick="stopSlideshow()" title="Close"><span class="ss-btn-icon">&#10005;</span><span class="ss-btn-text">Close</span></button>
   </div>
 </div>
+</div> <!-- end site-wrap -->
 
 <script>
+  // ===================== PASSWORD GATE =====================
+  var SITE_PASSWORD = 'polly';
+
+  function checkGate() {
+    var val = document.getElementById('gate-input').value;
+    if (val === SITE_PASSWORD) {
+      document.getElementById('password-gate').style.display = 'none';
+      document.getElementById('site-wrap').style.display = 'block';
+      document.getElementById('gate-input').value = '';
+      sessionStorage.setItem('pauline-auth', '1');
+    } else {
+      var err = document.getElementById('gate-error');
+      err.textContent = 'Incorrect password — please try again.';
+      document.getElementById('gate-input').value = '';
+      document.getElementById('gate-input').focus();
+      setTimeout(function(){ err.textContent = ''; }, 3000);
+    }
+  }
+
+  // Stay unlocked within the same browser session
+  if (sessionStorage.getItem('pauline-auth') === '1') {
+    document.getElementById('password-gate').style.display = 'none';
+    document.getElementById('site-wrap').style.display = 'block';
+  } else {
+    setTimeout(function(){ document.getElementById('gate-input').focus(); }, 100);
+  }
+
   // ===================== SUPABASE =====================
   var SUPA_URL = 'https://csxxtcatzvbohvqtfizn.supabase.co';
   var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeHh0Y2F0enZib2h2cXRmaXpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNDU1NTAsImV4cCI6MjA4OTgyMTU1MH0.Hs2-RjkCdU6ICOqBsHXL2Ikk_IqqUNfg3HfEp6z4K-k';
@@ -1396,6 +1652,312 @@
     rows.forEach(function(r) {
       memoryCounts[r.photo_id] = (memoryCounts[r.photo_id] || 0) + 1;
     });
+  }
+
+  // ===================== TAGGING =====================
+  var currentTags = [];
+  var pendingTagX = null;
+  var pendingTagY = null;
+  var tagModeActive = false;
+  var ssShowTags = false;
+  var ssFilterNames = [];
+  var allTagNames = [];
+
+  async function loadTagsForPhoto(photoId) {
+    var res = await supaFetch('tags?photo_id=eq.' + photoId + '&order=created_at.asc');
+    if (!res.ok) return [];
+    return await res.json();
+  }
+
+  async function loadAllTagNames() {
+    var res = await supaFetch('tags?select=name');
+    if (!res.ok) return [];
+    var rows = await res.json();
+    var names = {};
+    rows.forEach(function(r){ names[r.name] = true; });
+    return Object.keys(names).sort();
+  }
+
+  async function saveTag(photoId, name, xPct, yPct) {
+    var res = await supaFetch('tags', {
+      method: 'POST',
+      body: JSON.stringify({ photo_id: photoId, name: name, x_pct: xPct, y_pct: yPct })
+    });
+    return res.ok;
+  }
+
+  async function deleteTag(tagId) {
+    var res = await supaFetch('tags?id=eq.' + tagId, { method: 'DELETE' });
+    return res.ok;
+  }
+
+  function toggleTagMode() {
+    tagModeActive = !tagModeActive;
+    var bar = document.getElementById('tag-mode-bar');
+    var wrap = document.getElementById('detail-img-wrap');
+    var btn = document.getElementById('tag-toggle-btn');
+    if (tagModeActive) {
+      bar.classList.add('active');
+      wrap.classList.remove('view-mode');
+      wrap.classList.add('tag-mode');
+      btn.textContent = 'Exit tag mode';
+      btn.style.background = '#7a3a3a';
+    } else {
+      exitTagMode();
+    }
+  }
+
+  function exitTagMode() {
+    tagModeActive = false;
+    var bar = document.getElementById('tag-mode-bar');
+    var wrap = document.getElementById('detail-img-wrap');
+    var btn = document.getElementById('tag-toggle-btn');
+    bar.classList.remove('active');
+    wrap.classList.add('view-mode');
+    wrap.classList.remove('tag-mode');
+    btn.textContent = 'Tag people';
+    btn.style.background = '#3a5a7a';
+    pendingTagX = null;
+    pendingTagY = null;
+  }
+
+  function handlePhotoClick(e) {
+    if (!tagModeActive) return;
+    var img = document.getElementById('detail-img-wrap').querySelector('img');
+    if (!img) return;
+    var rect = img.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+    pendingTagX = (x / rect.width) * 100;
+    pendingTagY = (y / rect.height) * 100;
+    openTagModal();
+  }
+
+  async function openTagModal() {
+    allTagNames = await loadAllTagNames();
+    var dl = document.getElementById('tag-names-list');
+    dl.innerHTML = allTagNames.map(function(n){
+      return '<option value="' + n + '">';
+    }).join('');
+    document.getElementById('tag-name-input').value = '';
+    document.getElementById('tag-modal').classList.add('open');
+    setTimeout(function(){ document.getElementById('tag-name-input').focus(); }, 100);
+  }
+
+  function cancelTag() {
+    document.getElementById('tag-modal').classList.remove('open');
+    pendingTagX = null;
+    pendingTagY = null;
+  }
+
+  async function confirmTag() {
+    var name = document.getElementById('tag-name-input').value.trim();
+    if (!name) { alert('Please enter a name.'); return; }
+    var btn = document.querySelector('#tag-modal .btn-modal-save');
+    btn.textContent = 'Saving...'; btn.disabled = true;
+    var ok = await saveTag(currentPhotoId, name, pendingTagX, pendingTagY);
+    btn.textContent = 'Save tag'; btn.disabled = false;
+    if (!ok) { alert('Could not save tag — please try again.'); return; }
+    document.getElementById('tag-modal').classList.remove('open');
+    pendingTagX = null; pendingTagY = null;
+    currentTags = await loadTagsForPhoto(currentPhotoId);
+    renderTagsOnPhoto(currentTags);
+  }
+
+  function renderTagsOnPhoto(tags) {
+    var wrap = document.getElementById('detail-img-wrap');
+    wrap.querySelectorAll('.tag-dot, .tag-bubble, .tag-img-overlay').forEach(function(el){ el.remove(); });
+    var img = wrap.querySelector('img');
+    if (!img || !tags.length) return;
+
+    // Create an overlay div that sits exactly on top of the img
+    // Use the img's natural position within wrap (handles letterboxing)
+    var overlay = document.createElement('div');
+    overlay.className = 'tag-img-overlay';
+    overlay.style.cssText = 'position:absolute;pointer-events:none;top:0;left:0;width:100%;height:100%;';
+
+    // Position overlay to match the img exactly within the wrap
+    var imgRect = img.getBoundingClientRect();
+    var wrapRect = wrap.getBoundingClientRect();
+    overlay.style.left = (imgRect.left - wrapRect.left) + 'px';
+    overlay.style.top = (imgRect.top - wrapRect.top) + 'px';
+    overlay.style.width = imgRect.width + 'px';
+    overlay.style.height = imgRect.height + 'px';
+    overlay.style.pointerEvents = 'none';
+
+    tags.forEach(function(tag) {
+      var dot = document.createElement('div');
+      dot.className = 'tag-dot';
+      dot.style.left = tag.x_pct + '%';
+      dot.style.top = tag.y_pct + '%';
+      dot.style.pointerEvents = 'auto';
+      dot.title = tag.name;
+
+      var bubble = document.createElement('div');
+      bubble.className = 'tag-bubble';
+      bubble.style.left = tag.x_pct + '%';
+      bubble.style.top = tag.y_pct + '%';
+      bubble.textContent = tag.name;
+
+      dot.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (tagModeActive) {
+          if (confirm('Remove tag for ' + tag.name + '?')) {
+            deleteTag(tag.id).then(function() {
+              loadTagsForPhoto(currentPhotoId).then(function(t) {
+                currentTags = t;
+                renderTagsOnPhoto(t);
+              });
+            });
+          }
+        } else {
+          dot.classList.toggle('active');
+        }
+      });
+
+      overlay.appendChild(dot);
+      overlay.appendChild(bubble);
+    });
+
+    wrap.appendChild(overlay);
+  }
+
+  // ===================== SLIDESHOW FILTER & TAGS =====================
+  function toggleSsFilter() {
+    var panel = document.getElementById('ss-filter-panel');
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) {
+      buildFilterPanel();
+    }
+  }
+
+  async function buildFilterPanel() {
+    var container = document.getElementById('ss-filter-names');
+    container.innerHTML = '<p style="font-size:0.75rem;color:#5A4A38;font-style:italic;">Loading...</p>';
+
+    var allNames = await loadAllTagNames();
+
+    if (allNames.length === 0) {
+      container.innerHTML = '<p style="font-size:0.75rem;color:#5A4A38;font-style:italic;">No tags added yet.</p>';
+      return;
+    }
+
+    var SUBJECT = 'Pauline';
+    var hasPauline = allNames.indexOf(SUBJECT) >= 0;
+    var others = allNames.filter(function(n){ return n !== SUBJECT; });
+
+    var html = '';
+
+    // Always show Pauline pinned at top, pre-checked and disabled
+    if (hasPauline) {
+      html += '<label class="ss-filter-name" style="opacity:0.5;cursor:default;">' +
+        '<input type="checkbox" checked disabled> ' + SUBJECT +
+        ' <span style="font-size:0.65rem;color:#5A4A38;margin-left:4px;">(in every photo)</span>' +
+        '</label>';
+    }
+
+    // Divider if there are other names
+    if (hasPauline && others.length > 0) {
+      html += '<div style="border-top:0.5px solid #2A221A;margin:6px 0;"></div>';
+    }
+
+    // Everyone else — selectable
+    others.forEach(function(n) {
+      var checked = ssFilterNames.indexOf(n) >= 0 ? 'checked' : '';
+      html += '<label class="ss-filter-name"><input type="checkbox" value="' + n + '" ' + checked + '> ' + n + '</label>';
+    });
+
+    if (others.length === 0 && !hasPauline) {
+      html = '<p style="font-size:0.75rem;color:#5A4A38;font-style:italic;">No tags added yet.</p>';
+    } else if (others.length === 0 && hasPauline) {
+      html += '<p style="font-size:0.75rem;color:#5A4A38;font-style:italic;margin-top:6px;">No other people tagged yet.</p>';
+    }
+
+    container.innerHTML = html;
+  }
+
+  function applyFilter() {
+    var checks = document.querySelectorAll('#ss-filter-names input[type=checkbox]:checked');
+    ssFilterNames = Array.from(checks).map(function(c){ return c.value; });
+    document.getElementById('ss-filter-panel').classList.remove('open');
+    // Rebuild filtered photo list
+    if (ssFilterNames.length === 0) {
+      ssFilteredPhotos = ssPhotos;
+    } else {
+      ssFilteredPhotos = ssPhotos.filter(function(p) {
+        var tags = ssAllTags[p.id] || [];
+        var tagNames = tags.map(function(t){ return t.name; });
+        return ssFilterNames.some(function(n){ return tagNames.indexOf(n) >= 0; });
+      });
+    }
+    if (ssFilteredPhotos.length === 0) {
+      alert('No photos found with those people tagged. Try a different selection.');
+      ssFilteredPhotos = ssPhotos;
+      return;
+    }
+    ssIndex = 0;
+    buildSsDots();
+    ssShowSlide(ssIndex, true);
+    ssStartTimer();
+  }
+
+  function clearFilter() {
+    ssFilterNames = [];
+    ssFilteredPhotos = ssPhotos;
+    document.getElementById('ss-filter-panel').classList.remove('open');
+    document.querySelectorAll('#ss-filter-names input[type=checkbox]').forEach(function(c){ c.checked = false; });
+    ssIndex = 0;
+    buildSsDots();
+    ssShowSlide(ssIndex, true);
+    ssStartTimer();
+  }
+
+  function toggleSsTags() {
+    ssShowTags = document.getElementById('ss-show-tags-chk').checked;
+    renderSsTags();
+  }
+
+  function renderSsTags() {
+    var overlay = document.getElementById('ss-tag-overlay');
+    overlay.innerHTML = '';
+    if (!ssShowTags) return;
+    var p = ssFilteredPhotos[ssIndex];
+    if (!p) return;
+    var tags = ssAllTags[p.id] || [];
+    if (tags.length === 0) return;
+
+    var imgEl = document.getElementById('ss-img-' + ssActive);
+    if (!imgEl || !imgEl.complete || !imgEl.naturalWidth) return;
+
+    // Create a child div sized exactly to the rendered image within the overlay
+    var imgRect = imgEl.getBoundingClientRect();
+    var overlayRect = overlay.getBoundingClientRect();
+
+    var imgOverlay = document.createElement('div');
+    imgOverlay.style.cssText = 'position:absolute;pointer-events:none;' +
+      'left:' + (imgRect.left - overlayRect.left) + 'px;' +
+      'top:' + (imgRect.top - overlayRect.top) + 'px;' +
+      'width:' + imgRect.width + 'px;' +
+      'height:' + imgRect.height + 'px;';
+
+    tags.forEach(function(tag) {
+      var dot = document.createElement('div');
+      dot.className = 'ss-tag-dot';
+      dot.style.left = tag.x_pct + '%';
+      dot.style.top = tag.y_pct + '%';
+
+      var bub = document.createElement('div');
+      bub.className = 'ss-tag-bubble';
+      bub.style.left = tag.x_pct + '%';
+      bub.style.top = tag.y_pct + '%';
+      bub.textContent = tag.name;
+
+      imgOverlay.appendChild(dot);
+      imgOverlay.appendChild(bub);
+    });
+
+    overlay.appendChild(imgOverlay);
   }
 
   // ===================== ADMIN =====================
@@ -1678,7 +2240,9 @@
   // ===================== SLIDESHOW =====================
   var ssIndex = 0;
   var ssPhotos = [];
+  var ssFilteredPhotos = [];
   var ssMemories = {};
+  var ssAllTags = {};
   var ssTimer = null;
   var ssDuration = 6000;
   var ssPaused = false;
@@ -1691,27 +2255,36 @@
     ssPhotos = res1.filter(function(p){ return p.filename; });
     if (ssPhotos.length === 0) { alert('No photos to show yet — add some first!'); return; }
 
+    ssFilteredPhotos = ssPhotos;
+    ssFilterNames = [];
+    ssAllTags = {};
     ssMemories = {};
     ssIndex = 0;
     ssPaused = false;
-    document.getElementById('ss-pause-btn').textContent = 'Pause';
+    ssShowTags = false;
+    document.getElementById('ss-show-tags-chk').checked = false;
+    document.getElementById('ss-filter-panel').classList.remove('open');
+    document.getElementById('ss-tag-overlay').innerHTML = '';
+    document.getElementById('ss-pause-text').textContent = 'Pause';
+    document.getElementById('ss-pause-icon').textContent = '\u2590\u258c';
     document.getElementById('slideshow').classList.add('open');
-    buildSsDots();
 
-    // Load first photo's memories then show immediately
+    // Load first photo's memories and tags then show immediately
     ssMemories[ssPhotos[0].id] = await loadMemoriesForPhoto(ssPhotos[0].id);
+    ssAllTags[ssPhotos[0].id] = await loadTagsForPhoto(ssPhotos[0].id);
+    buildSsDots();
     ssShowSlide(0, true);
     ssStartTimer();
 
-    // Load remaining memories in background without blocking
+    // Load ALL remaining memories and tags in background
     for (var i = 1; i < ssPhotos.length; i++) {
-      var mems = await loadMemoriesForPhoto(ssPhotos[i].id);
-      ssMemories[ssPhotos[i].id] = mems;
+      ssMemories[ssPhotos[i].id] = await loadMemoriesForPhoto(ssPhotos[i].id);
+      ssAllTags[ssPhotos[i].id] = await loadTagsForPhoto(ssPhotos[i].id);
     }
   }
 
   function buildSsDots() {
-    var total = ssPhotos.length;
+    var total = ssFilteredPhotos.length;
     document.getElementById('ss-total').textContent = total;
 
     var segments = document.getElementById('ss-segments');
@@ -1726,15 +2299,15 @@
   }
 
   function ssGoToSegment(segIdx, segCount) {
-    var total = ssPhotos.length;
+    var total = ssFilteredPhotos.length;
     var targetSlide = Math.round((segIdx / segCount) * total);
     ssGoTo(Math.min(targetSlide, total - 1));
   }
 
   function ssUpdateDots() {
-    var total = ssPhotos.length;
+    var total = ssFilteredPhotos.length;
     var segCount = Math.min(total, 20);
-    var activeSeg = Math.floor((ssIndex / total) * segCount);
+    var activeSeg = Math.floor((ssIndex / Math.max(total,1)) * segCount);
 
     document.getElementById('ss-current').textContent = ssIndex + 1;
 
@@ -1783,12 +2356,13 @@
       ssMemoryCycleTimer = setInterval(function() {
         ssMemoryCycleIndex++;
         ssShowMemory(mems, ssMemoryCycleIndex);
-      }, 4000);
+      }, 5000);
     }
   }
 
   function ssShowSlide(idx, instant) {
-    var p = ssPhotos[idx];
+    var p = ssFilteredPhotos[idx];
+    if (!p) return;
     var incoming = ssActive === 'a' ? 'b' : 'a';
     var imgIn = document.getElementById('ss-img-' + incoming);
     var imgOut = document.getElementById('ss-img-' + ssActive);
@@ -1811,6 +2385,7 @@
       imgIn.classList.add('visible');
       bgIn.classList.add('visible');
       ssActive = incoming;
+      if (ssShowTags) renderSsTags();
     };
 
     document.getElementById('ss-title-l').textContent = p.title;
@@ -1819,12 +2394,11 @@
     document.getElementById('ss-year-p').textContent = p.year || '';
 
     var mems = ssMemories[p.id] || [];
-    ssDuration = mems.length <= 1 ? 5000 : mems.length * 4000;
+    ssDuration = mems.length <= 1 ? 5000 : mems.length * 5000;
 
     ssStartMemoryCycle(mems);
     ssUpdateDots();
 
-    // Update scrim height in landscape to match text panel height
     var isLandscape = window.matchMedia('(orientation: landscape)').matches;
     if (isLandscape) {
       setTimeout(function() {
@@ -1837,10 +2411,10 @@
     }
 
     // Preload next image
-    var nextIdx = (idx + 1) % ssPhotos.length;
-    if (ssPhotos[nextIdx] && ssPhotos[nextIdx].filename) {
+    var nextIdx = (idx + 1) % ssFilteredPhotos.length;
+    if (ssFilteredPhotos[nextIdx] && ssFilteredPhotos[nextIdx].filename) {
       var preload = new Image();
-      preload.src = photoUrl(ssPhotos[nextIdx].filename);
+      preload.src = photoUrl(ssFilteredPhotos[nextIdx].filename);
     }
   }
 
@@ -1860,13 +2434,13 @@
   }
 
   function ssNext() {
-    ssIndex = (ssIndex + 1) % ssPhotos.length;
+    ssIndex = (ssIndex + 1) % ssFilteredPhotos.length;
     ssShowSlide(ssIndex, false);
     ssStartTimer();
   }
 
   function ssPrev() {
-    ssIndex = (ssIndex - 1 + ssPhotos.length) % ssPhotos.length;
+    ssIndex = (ssIndex - 1 + ssFilteredPhotos.length) % ssFilteredPhotos.length;
     ssShowSlide(ssIndex, false);
     ssStartTimer();
   }
@@ -1879,15 +2453,16 @@
 
   function ssTogglePause() {
     ssPaused = !ssPaused;
-    var btn = document.getElementById('ss-pause-btn');
     var fill = document.getElementById('ss-timer');
     if (ssPaused) {
-      btn.textContent = 'Play';
+      document.getElementById('ss-pause-text').textContent = 'Play';
+      document.getElementById('ss-pause-icon').textContent = '\u25b6';
       clearTimeout(ssTimer);
       fill.style.transition = 'none';
       ssTimerRemaining = Math.max(500, ssTimerRemaining - (Date.now() - ssTimerStart));
     } else {
-      btn.textContent = 'Pause';
+      document.getElementById('ss-pause-text').textContent = 'Pause';
+      document.getElementById('ss-pause-icon').textContent = '\u2590\u258c';
       ssTimerStart = Date.now();
       fill.style.transition = 'width ' + ssTimerRemaining + 'ms linear';
       fill.style.width = '100%';
@@ -2017,19 +2592,69 @@
     sorted.forEach(function(p) {
       var card = document.createElement('div');
       card.className = 'photo-card';
-      card.onclick = function(){ openPhoto(p.id); };
+      card.style.position = 'relative';
+      var tagsShowing = false;
 
-      var imgHtml = p.filename
-        ? '<img class="photo-img" src="' + photoUrl(p.filename) + '" alt="' + p.title + '">'
-        : '<div class="photo-img-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#A07840" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>';
+      // Image container with tag support
+      var imgContainer = document.createElement('div');
+      imgContainer.style.cssText = 'position:relative;width:100%;';
 
+      var imgEl = document.createElement(p.filename ? 'img' : 'div');
+      if (p.filename) {
+        imgEl.className = 'photo-img';
+        imgEl.src = photoUrl(p.filename);
+        imgEl.alt = p.title;
+        imgEl.style.cssText = 'display:block;width:100%;';
+      } else {
+        imgEl.className = 'photo-img-placeholder';
+        imgEl.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#A07840" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
+      }
+      imgContainer.appendChild(imgEl);
+
+      // Delete button (admin only via CSS)
+      var delBtn = document.createElement('button');
+      delBtn.className = 'photo-delete-btn';
+      delBtn.textContent = 'Remove';
+      delBtn.onclick = function(e){ deletePhoto(e, p.id, p.filename || ''); };
+
+      // Meta
       var n = memoryCounts[p.id] || 0;
       var countClass = n > 0 ? 'mem-count has-memories' : 'mem-count';
       var countText = n === 0 ? 'No memories yet' : n === 1 ? '1 memory' : n + ' memories';
+      var meta = document.createElement('div');
+      meta.className = 'photo-meta';
+      meta.innerHTML = '<div class="title">' + p.title + '</div>' +
+        '<div class="year">' + p.year + '</div>' +
+        '<div class="' + countClass + '">' + countText + '</div>' +
+        '<div style="font-size:0.65rem;color:#aaa;margin-top:2px;">Double-click to show/hide tags</div>';
 
-      card.innerHTML = imgHtml +
-        '<button class="photo-delete-btn" onclick="deletePhoto(event,' + p.id + ',\'' + (p.filename||'') + '\')">Remove</button>' +
-        '<div class="photo-meta"><div class="title">' + p.title + '</div><div class="year">' + p.year + '</div><div class="' + countClass + '">' + countText + '</div></div>';
+      card.appendChild(imgContainer);
+      card.appendChild(delBtn);
+      card.appendChild(meta);
+
+      // Single click → open photo, double click → toggle tags
+      var clickTimer = null;
+      imgContainer.addEventListener('click', function(e) {
+        if (clickTimer) {
+          clearTimeout(clickTimer);
+          clickTimer = null;
+          if (!tagsShowing) {
+            loadTagsForPhoto(p.id).then(function(tags) {
+              renderGalleryTags(imgContainer, tags);
+              tagsShowing = true;
+            });
+          } else {
+            imgContainer.querySelectorAll('.gallery-tag-dot,.gallery-tag-bubble').forEach(function(el){ el.remove(); });
+            tagsShowing = false;
+          }
+        } else {
+          clickTimer = setTimeout(function() {
+            clickTimer = null;
+            openPhoto(p.id);
+          }, 250);
+        }
+      });
+
       grid.appendChild(card);
     });
 
@@ -2040,18 +2665,41 @@
     grid.appendChild(newAddTile);
   }
 
+  function renderGalleryTags(container, tags) {
+    container.querySelectorAll('.gallery-tag-dot,.gallery-tag-bubble').forEach(function(el){ el.remove(); });
+    var img = container.querySelector('img');
+    if (!img) return;
+    tags.forEach(function(tag) {
+      var dot = document.createElement('div');
+      dot.className = 'gallery-tag-dot';
+      dot.style.cssText = 'position:absolute;left:' + tag.x_pct + '%;top:' + tag.y_pct + '%;transform:translate(-50%,-50%);width:10px;height:10px;border-radius:50%;border:2px solid white;background:rgba(10,7,4,0.5);pointer-events:none;z-index:5;';
+
+      var bub = document.createElement('div');
+      bub.className = 'gallery-tag-bubble';
+      bub.style.cssText = 'position:absolute;left:' + tag.x_pct + '%;top:' + tag.y_pct + '%;transform:translate(-50%,-140%);background:rgba(10,7,4,0.82);color:#F0EAE0;font-family:Source Sans 3,sans-serif;font-size:0.6rem;padding:2px 5px;border-radius:2px;white-space:nowrap;pointer-events:none;z-index:5;';
+      bub.textContent = tag.name;
+
+      container.appendChild(dot);
+      container.appendChild(bub);
+    });
+  }
+
   // ===================== PHOTO DETAIL =====================
   async function openPhoto(id) {
     currentPhotoId = id;
     var p = photos.find(function(x){ return x.id === id; });
     if (!p) return;
 
+    // Reset tag mode
+    exitTagMode();
+    currentTags = [];
+
     document.getElementById('detail-title').textContent = p.title;
     document.getElementById('detail-year').textContent = p.year;
 
     var imgWrap = document.getElementById('detail-img-wrap');
     if (p.filename) {
-      imgWrap.innerHTML = '<img class="detail-photo" src="' + photoUrl(p.filename) + '" alt="' + p.title + '">';
+      imgWrap.innerHTML = '<img class="detail-photo" src="' + photoUrl(p.filename) + '" alt="' + p.title + '" style="display:block;width:100%;">';
     } else {
       imgWrap.innerHTML = '<div class="detail-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C9B99A" stroke-width="0.7"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>';
     }
@@ -2071,8 +2719,14 @@
       document.getElementById('enhance-photo-btn').style.display = 'none';
     }
 
-    var memories = await loadMemoriesForPhoto(id);
-    renderMemoriesPanel(memories);
+    // Load memories and tags in parallel
+    var results = await Promise.all([
+      loadMemoriesForPhoto(id),
+      loadTagsForPhoto(id)
+    ]);
+    renderMemoriesPanel(results[0]);
+    currentTags = results[1];
+    renderTagsOnPhoto(currentTags);
   }
 
   function renderMemoriesPanel(memories) {
@@ -2242,7 +2896,6 @@
         pendingFiles = files;
         pendingFileIndex = 0;
         openModalForFile();
-        // Reset input so same file can be selected again if needed
         e.target.value = '';
       });
     }
