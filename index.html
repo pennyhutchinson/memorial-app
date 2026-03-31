@@ -2356,7 +2356,7 @@
       ssMemoryCycleTimer = setInterval(function() {
         ssMemoryCycleIndex++;
         ssShowMemory(mems, ssMemoryCycleIndex);
-      }, 5000);
+      }, 7000);
     }
   }
 
@@ -2394,7 +2394,7 @@
     document.getElementById('ss-year-p').textContent = p.year || '';
 
     var mems = ssMemories[p.id] || [];
-    ssDuration = mems.length <= 1 ? 5000 : mems.length * 5000;
+    ssDuration = mems.length <= 1 ? 7000 : mems.length * 7000;
 
     ssStartMemoryCycle(mems);
     ssUpdateDots();
